@@ -1,7 +1,9 @@
 package application;
 	
 import java.io.IOException;
+import java.util.ArrayList;
 
+import application.controllers.Transaction;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -13,10 +15,11 @@ import javafx.scene.layout.BorderPane;
 
 public class Main extends Application {
 	
+	//FXML Variables 
 	private BorderPane rootLayout;
-	
 	private Stage primaryStage;
-	//private AnchorPane startView;
+	
+	public static ArrayList<Transaction> trList = new ArrayList<Transaction>();
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage=primaryStage;

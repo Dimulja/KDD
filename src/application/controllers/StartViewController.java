@@ -3,20 +3,23 @@ package application.controllers;
 
 
 import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 
-public class StartViewController {
+public class StartViewController implements Initializable {
 	
 	
 	@FXML
 	private Button OpenFile;
 	
-	private Main Main;
 	
 	
 	
@@ -37,11 +40,19 @@ public class StartViewController {
         
         if (file!=null){
         System.out.println(file);
-        TxtReader TReader = new TxtReader(Main);
+        TxtReader TReader = new TxtReader();
         TReader.readTXT(file.getPath());
         }else{
         	System.out.println("No file was selected");
         }
+	}
+
+
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
