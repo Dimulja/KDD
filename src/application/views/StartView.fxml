@@ -7,9 +7,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.FlowPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.StartViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="428.0" prefWidth="588.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.StartViewController">
    <children>
       <Button fx:id="OpenFile" layoutX="43.0" layoutY="38.0" mnemonicParsing="false" onAction="#OpenFilePress" text="Open TXT-File" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
+      <BarChart fx:id="chartHist" layoutX="57.0" layoutY="106.0" prefHeight="291.0" prefWidth="447.0" visible="false">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <Button fx:id="hist" layoutX="20.0" layoutY="59.0" mnemonicParsing="false" onAction="#OnActionHist" text="Histogram" />
+      <Button fx:id="pie" layoutX="113.0" layoutY="59.0" mnemonicParsing="false" text="Pie" />
+      <Button fx:id="aprioriButton" layoutX="158.0" layoutY="59.0" mnemonicParsing="false" onAction="#aprioriButtonOnAction" text="Apriori" />
    </children>
 </AnchorPane>

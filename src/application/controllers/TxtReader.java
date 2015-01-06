@@ -13,8 +13,7 @@ import application.Main;
 public class TxtReader {
 	
 	//Main Main;
-	int goodsAmount, dataAmount;
-	String[] splittedFieldsLine;
+	//int goodsAmount, dataAmount;
 	public TxtReader(){
 		
 		//this.Main=Main;
@@ -35,39 +34,49 @@ public class TxtReader {
 				
 				 switch (LnR.getLineNumber()){
 					
-				case 1: 
+				case 1:
 					try {
-						String trimmedLine=line.replace("Waren: ", "");
-						goodsAmount=Integer.parseInt(trimmedLine);
+						String trimmedLine = line.replace("Waren: ", "");
+						Main.goodsAmount = Integer.parseInt(trimmedLine);
+						Main.goodsTitle= new String[Main.goodsAmount];
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
-						log("ERROR: Can't convert to int "+ e.getMessage()+". In Line: "+LnR.getLineNumber());
+						log("ERROR: Can't convert to int " + e.getMessage()
+								+ ". In Line: " + LnR.getLineNumber());
 						break readFile;
 					}
-						//log("goodsAmount="+goodsAmount);
-						break;
+					// log("goodsAmount="+goodsAmount);
+					break;
 					
-				case 2: 
+				case 2:
 					try {
-						String trimmedLine2=line.replace("Daten: ", "");
-						dataAmount=Integer.parseInt(trimmedLine2);
+						String trimmedLine2 = line.replace("Daten: ", "");
+						Main.dataAmount = Integer.parseInt(trimmedLine2);
+						Main.dataTitle= new String[Main.dataAmount];
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
-						//e.printStackTrace();
-						log("ERROR: Can't convert to int "+ e.getMessage()+". In Line: "+LnR.getLineNumber());
+						// e.printStackTrace();
+						log("ERROR: Can't convert to int " + e.getMessage()
+								+ ". In Line: " + LnR.getLineNumber());
 						break readFile;
 					}
-						break;
+					break;
 				case 3:
-						splittedFieldsLine=line.split(cvsSplitBy);
-						break;
+					String[] s = line.split(cvsSplitBy);
+					for (int i = 0; i < Main.goodsAmount; i++) {
+						Main.goodsTitle[i] = s[i];
+					}
+					for (int i = 0; i < Main.dataAmount; i++) {
+						Main.dataTitle[i] = s[i + Main.goodsAmount];
+					}
+					break;
 				default: 
-						if(!line.isEmpty()){
+					if (!line.isEmpty()) {
 						String[] data = line.split(cvsSplitBy);
-						Main.trList.add(new Transaction(splittedFieldsLine, data,(goodsAmount+dataAmount)));
-						//Main.trList.get(Main.trList.size()-1).init(data);
-						}
-						break;
+						Main.trList.add(new Transaction(data));
+						// Main.trList.get(Main.trList.size()-1).init(data);
+					}
+					break;
 			}
 				
 			}
@@ -87,10 +96,10 @@ public class TxtReader {
 	
 	
 	//Simple method for printing to stdOUT
-		public static void log(String s){
-			System.out.println(s);
-			
-		}
+	public static void log(String s) {
+		System.out.println(s);
+
+	}
 	
 		
 		
