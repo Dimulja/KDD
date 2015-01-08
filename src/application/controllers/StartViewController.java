@@ -32,6 +32,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
@@ -41,6 +42,8 @@ public class StartViewController implements Initializable {
 	private AnchorPane anchorPaneStart; 
 	@FXML
 	private Button OpenFile;
+	@FXML
+	private ChoiceBox choiceStatistic;
 	@FXML
 	private Button hist;
 	@FXML
@@ -55,12 +58,14 @@ public class StartViewController implements Initializable {
 	private ObservableList<String> goodsNames;
 	private ArrayList<String> candidates=new ArrayList<String>();
 	
-	private boolean histShowed;
+	private boolean  dataLoaded;
+	private String fileNameOfDataFile;
+	
 	
 	
 	
 	public StartViewController(){
-		histShowed=false;
+	
 	}
 	
 
@@ -74,24 +79,25 @@ public class StartViewController implements Initializable {
         
         if (file!=null){
         System.out.println(file);
+        fileNameOfDataFile=file.getName();
         TxtReader TReader = new TxtReader();
         TReader.readTXT(file.getPath());
         hist.setDisable(false);
+        dataLoaded=true;
         }else{
         	System.out.println("No file was selected");
+        	dataLoaded=false;
         }
 	}
 	
 	
-	@FXML
-	public void onZoom(){
-		anchorPaneStart.autosize();
-	}
+
 
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+		dataLoaded=false;
+		hist.setDisable(true);
 	}
 	
 	@FXML
@@ -104,8 +110,8 @@ public class StartViewController implements Initializable {
 	@FXML
 	public void OnActionHist(ActionEvent event) {
 		
-		if(!histShowed){
-			histShowed=true;
+		if(dataLoaded){
+			
 			int[] sum = new int[Main.goodsAmount];
 			//String[] titels =new String[Main.goodsAmount];
 			
@@ -116,18 +122,18 @@ public class StartViewController implements Initializable {
 				}
 				System.out.println(sum[i]);
 			}
-			
+			//observableArrayList for the Categorie Names
 			goodsNames = FXCollections.observableArrayList(Main.goodsTitle);
-			System.out.println(goodsNames);
+			//Setting the names to the xAxis
 			xAxis.setCategories(goodsNames); 
-			//goodsNames.addListener((ListChangeListener) change -> System.out.println("Detected a change! "));
-		    //goodsNames.addAll(Arrays.asList(Main.goodsTitle));
+		
 		   
-		   //xAxis.autosize();
+		   
 		    //int[] x = new int[3];
-		    System.out.println(xAxis.getCategories().toString());
+		    System.out.println(xAxis.getCategorySpacing());
 		    
 		    XYChart.Series<String, Integer> series = new XYChart.Series<>();
+		    series.setName("Sums of foods from "+fileNameOfDataFile+"  ");
 	
 		    // Create a XYChart.Data object for each month. Add it to the series.
 		    for (int i = 0; i < Main.goodsAmount; i++) {
@@ -138,7 +144,12 @@ public class StartViewController implements Initializable {
 		    if(chartHist!=null)
 		    	chartHist.getData().add(series);
 		    chartHist.setVisible(true);
+		   
+		   
+		   
 		}
+			
+		
 	}
 	
 	

@@ -7,10 +7,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.FlowPane?>
 
-<AnchorPane cacheHint="SCALE" onZoom="#onZoom" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.StartViewController">
+<AnchorPane cacheHint="SCALE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.StartViewController">
    <children>
       <Button fx:id="OpenFile" layoutX="43.0" layoutY="38.0" mnemonicParsing="false" onAction="#OpenFilePress" text="Open TXT-File" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
-      <BarChart fx:id="chartHist" layoutX="108.0" layoutY="101.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="101.0">
+      <BarChart fx:id="chartHist" layoutX="108.0" layoutY="101.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="101.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
@@ -24,5 +24,6 @@
       <Button fx:id="hist" layoutX="20.0" layoutY="59.0" mnemonicParsing="false" onAction="#OnActionHist" text="Histogram" />
       <Button fx:id="pie" layoutX="113.0" layoutY="59.0" mnemonicParsing="false" text="Pie" />
       <Button fx:id="aprioriButton" layoutX="158.0" layoutY="59.0" mnemonicParsing="false" onAction="#aprioriButtonOnAction" text="Apriori" />
+      <ChoiceBox fx:id="choiceStatistic" layoutX="14.0" layoutY="171.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

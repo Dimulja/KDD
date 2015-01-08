@@ -80,4 +80,13 @@ public class Main extends Application {
 	public void menuClose(){
 		Platform.exit();
 	}
+
+
+
+
+
+
+	
+	
+	
 }
