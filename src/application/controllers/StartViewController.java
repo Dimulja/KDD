@@ -22,6 +22,7 @@ import java.util.Vector;
 
 import application.Main;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 //import application.Main;
 import javafx.event.ActionEvent;
@@ -31,11 +32,13 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
 public class StartViewController implements Initializable {
 	
-	
+	@FXML
+	private AnchorPane anchorPaneStart; 
 	@FXML
 	private Button OpenFile;
 	@FXML
@@ -49,11 +52,15 @@ public class StartViewController implements Initializable {
 	@FXML
 	private CategoryAxis xAxis;
 	
-	private ObservableList<String> goodsNames = FXCollections.observableArrayList();
+	private ObservableList<String> goodsNames;
 	private ArrayList<String> candidates=new ArrayList<String>();
 	
+	private boolean histShowed;
+	
+	
+	
 	public StartViewController(){
-		
+		histShowed=false;
 	}
 	
 
@@ -76,6 +83,10 @@ public class StartViewController implements Initializable {
 	}
 	
 	
+	@FXML
+	public void onZoom(){
+		anchorPaneStart.autosize();
+	}
 
 
 	@Override
@@ -92,32 +103,42 @@ public class StartViewController implements Initializable {
 
 	@FXML
 	public void OnActionHist(ActionEvent event) {
-		int[] sum = new int[Main.goodsAmount];
-		//String[] titels =new String[Main.goodsAmount];
 		
-		for (int i = 0; i < Main.goodsAmount; i++) {
-			//titels[i]=Main.splittedFieldsLine[i];
-			for (Transaction good : Main.trList) {
-				sum[i] += good.getValueGood(Main.goodsTitle[i]);
+		if(!histShowed){
+			histShowed=true;
+			int[] sum = new int[Main.goodsAmount];
+			//String[] titels =new String[Main.goodsAmount];
+			
+			for (int i = 0; i < Main.goodsAmount; i++) {
+				//titels[i]=Main.splittedFieldsLine[i];
+				for (Transaction good : Main.trList) {
+					sum[i] += good.getValueGood(Main.goodsTitle[i]);
+				}
+				System.out.println(sum[i]);
 			}
-			System.out.println(sum[i]);
+			
+			goodsNames = FXCollections.observableArrayList(Main.goodsTitle);
+			System.out.println(goodsNames);
+			xAxis.setCategories(goodsNames); 
+			//goodsNames.addListener((ListChangeListener) change -> System.out.println("Detected a change! "));
+		    //goodsNames.addAll(Arrays.asList(Main.goodsTitle));
+		   
+		   //xAxis.autosize();
+		    //int[] x = new int[3];
+		    System.out.println(xAxis.getCategories().toString());
+		    
+		    XYChart.Series<String, Integer> series = new XYChart.Series<>();
+	
+		    // Create a XYChart.Data object for each month. Add it to the series.
+		    for (int i = 0; i < Main.goodsAmount; i++) {
+		        series.getData().add(new XYChart.Data<>(Main.goodsTitle[i], Integer.valueOf(sum[i])));
+		    }
+		    System.out.println(series.getData());
+		    
+		    if(chartHist!=null)
+		    	chartHist.getData().add(series);
+		    chartHist.setVisible(true);
 		}
-		
-	    goodsNames.addAll(Arrays.asList(Main.goodsTitle));
-	    xAxis.setCategories(goodsNames);        
-	    //int[] x = new int[3];
-	    System.out.println(xAxis.getCategories().toString());
-	    
-	    XYChart.Series<String, Integer> series = new XYChart.Series<>();
-
-	    // Create a XYChart.Data object for each month. Add it to the series.
-	    for (int i = 0; i < Main.goodsAmount; i++) {
-	        series.getData().add(new XYChart.Data<>(Main.goodsTitle[i], Integer.valueOf(sum[i])));
-	    }
-	    System.out.println(series.getData().toString());
-	    if(chartHist!=null)
-	    	chartHist.getData().add(series);
-	    chartHist.setVisible(true);
 	}
 	
 	

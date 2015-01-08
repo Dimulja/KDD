@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import application.controllers.Transaction;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -57,8 +59,10 @@ public class Main extends Application {
 			loader.setLocation((getClass().getResource("/application/views/StartView.fxml")));
 			AnchorPane startView  = (AnchorPane)loader.load();
 			primaryStage.setTitle("KDD Projekt WS2014/15");
+			startView.setScaleShape(true);
 			rootLayout.setCenter(startView);
 			//startView.addAll(startView.getChildren());
+			
 			
 			
 			
@@ -70,5 +74,10 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+	}
+	
+	@FXML
+	public void menuClose(){
+		Platform.exit();
 	}
 }
