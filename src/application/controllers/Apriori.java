@@ -1,21 +1,15 @@
 package application.controllers;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-import java.util.Vector;
+
 
 import application.Main;
 
 public class Apriori {
 	
 	private ArrayList<String> candidates = new ArrayList<String>();
-	private int minsup = 2;
+	private ArrayList<String> candidates2 = new ArrayList<String>();
+	private int minsup = 100;
 	private int numTransactions = Main.goodsAmount;
 	
 	public void apriori(){
@@ -42,13 +36,15 @@ public class Apriori {
 	                System.out.println(candidates);
 	            }
 			}
-			
+		System.out.println("Ergebniss" + candidates2);
 			
 		}
 	
 	private void calculateFrequent(int n){
+		candidates2= new ArrayList<String>();
+		ArrayList<String> tempCandidates = new ArrayList<String>(candidates);
 		int k=0;		
-		for(String candidat : candidates){
+		for(String candidat : tempCandidates){
 			//System.out.println("1 " + candidat.toString());
 			//try{
 			k=0;
@@ -63,7 +59,7 @@ public class Apriori {
 			//System.out.println("2 " + ids[0]);
 			//while(k < minsup){
 			boolean occurringItemsets=false;	
-				for(Transaction tr : Main.trList){
+			for(Transaction tr : Main.trList){
 					boolean f=true;
 					//System.out.println("tr "+ tr.goods.toString() + " candidID " + ids.toString());
 					for(int i=0; i < ids.length; i++){
@@ -75,6 +71,7 @@ public class Apriori {
 						}
 					}
 					if( f ){
+						//System.out.println(tr.goods.toString());
 						k++;
 						//System.out.println("!!!!!!!!!!!!! " + k);
 					} //else{
@@ -84,6 +81,7 @@ public class Apriori {
 					if(k >= minsup){
 						System.out.println("break " + candidat);
 						occurringItemsets=true;
+						candidates2.add(candidat);
 						break;
 					}
 					
@@ -100,7 +98,7 @@ public class Apriori {
 	
 	private void generateCandidates(int n)
     {
-        Vector<String> tempCandidates = new Vector<String>(); //temporary candidate string vector
+        ArrayList<String> tempCandidates = new ArrayList<String>(); //temporary candidate string vector
         String str1, str2; //strings that will be used for comparisons
         StringTokenizer st1, st2; //string tokenizers for the two itemsets being compared
 
@@ -111,7 +109,6 @@ public class Apriori {
             {
                 tempCandidates.add(Integer.toString(i));
             }
-            System.out.println("1" + tempCandidates.toString());
         }
         else if(n==2) //second itemset is just all combinations of itemset 1
         {
