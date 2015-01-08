@@ -77,6 +77,12 @@ public class Transaction {
 		return goods.get(key);
 	}
 	
+	public int getValueGood(String key,int val) {
+		//if(data.get(key))
+		//goods.get
+		return goods.get(key);
+	}
+	
 	/**
 	 * Simple method for printing to stdOUT
 	 * @param s String
