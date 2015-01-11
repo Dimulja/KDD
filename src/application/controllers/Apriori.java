@@ -44,7 +44,13 @@ public class Apriori {
 			}
 		System.out.println("Ergebniss" + candidatesProved);
 		System.out.println("Ergebniss 2 " + candidates);
-		
+		for(String s : candidatesProved ){
+			String[] el = s.split(" ");
+			for(int i=0; i< el.length; i++){
+				System.out.print(Main.goodsTitle[Integer.parseInt(el[i])]+ " , ");
+			}
+			System.out.println("");
+		}
 		associationRules();
 		}
 	

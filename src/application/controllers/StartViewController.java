@@ -96,7 +96,7 @@ public class StartViewController implements Initializable {
         assozFrom.setItems(dataNames);
         assozTo.setItems(dataNames);
         assozFrom.setVisible(true);
-        assozFrom.setVisible(true);
+        assozTo.setVisible(true);
 	}
 	
 	@FXML
