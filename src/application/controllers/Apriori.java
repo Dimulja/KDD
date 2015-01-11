@@ -123,7 +123,7 @@ public class Apriori {
 			//}
 		}
 		if(candidates.size() > 0){
-			candidatesProved = new ArrayList<String>(candidates);
+			candidatesProved.addAll(candidates);
 		}
 		System.out.println("all cand " + candidates.toString());
 	}
