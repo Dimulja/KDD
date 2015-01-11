@@ -32,6 +32,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -57,6 +58,9 @@ public class StartViewController implements Initializable {
 	private BarChart<String, Integer> chartHist;
 	@FXML
 	private CategoryAxis xAxis;
+	@FXML
+	private NumberAxis numberXis;
+	
 	
 	private ObservableList<String> goodsNames, dataNames;
 	private ArrayList<String> candidates=new ArrayList<String>();
@@ -87,6 +91,7 @@ public class StartViewController implements Initializable {
         TReader.readTXT(file.getPath());
         hist.setDisable(false);
         dataLoaded=true;
+        
         //dataNames= FXCollections.observableArrayList(Main.dataTitle);
        // Statistic st = new Statistic(choiceStatistic);
       // choiceStatistic=st.getDataForCheckBox();
@@ -95,14 +100,16 @@ public class StartViewController implements Initializable {
         System.out.println(dataNames);
         //box = new ComboBox<String>();
         box.setItems(dataNames);
-        System.out.println( box.getItems());
-        box.show();
+        //System.out.println( box.getItems());
+        //box.show();
         box.valueProperty().addListener(new ChangeListener<String>() {
             @Override 
             public void changed(ObservableValue ov, String t, String t1) {
-                System.out.println(ov);
-                  System.out.println(t);
-                  System.out.println(t1); //t1 is a chosen Value
+                //TODO Update Histogram with chosen Statistic
+            	
+            	//System.out.println(ov);  
+                 // System.out.println(t);  // Is the old value
+                 // System.out.println(t1); //t1 is a chosen Value
                   updateHist(t1);
               }    
           });
@@ -136,13 +143,17 @@ public class StartViewController implements Initializable {
 	@FXML
 	public void OnActionHist(ActionEvent event) {
 		
-		
+			box.setValue(null);
 			loadHist();
+//			numberXis.autosize();
+//			numberXis.getLowerBound();
+			
+			
 		
 	}
 	
 	/**
-	 * Loading the Hostogramm
+	 * Loading the Histogramm
 	 */
 	public void loadHist(){
 		chartHist.getData().clear();
@@ -156,7 +167,7 @@ public class StartViewController implements Initializable {
 				for (Transaction good : Main.trList) {
 					sum[i] += good.getValueGood(Main.goodsTitle[i]);
 				}
-				System.out.println(sum[i]);
+				System.out.println(""+Main.goodsTitle[i]+" : "+sum[i]);
 			}
 			//observableArrayList for the Categorie Names
 			goodsNames = FXCollections.observableArrayList(Main.goodsTitle);
@@ -167,7 +178,7 @@ public class StartViewController implements Initializable {
 		   
 		   
 		    //int[] x = new int[3];
-		    System.out.println(xAxis.getCategorySpacing());
+		    //System.out.println(xAxis.getCategorySpacing());
 		    
 		    XYChart.Series<String, Integer> series = new XYChart.Series<>();
 		    series.setName("Sums of foods from "+fileNameOfDataFile+"  ");
@@ -177,11 +188,16 @@ public class StartViewController implements Initializable {
 		    for (int i = 0; i < Main.goodsAmount; i++) {
 		        series.getData().add(new XYChart.Data<>(Main.goodsTitle[i], Integer.valueOf(sum[i])));
 		    }
-		    System.out.println(series.getData());
+		    //System.out.println(series.getData());
+		    chartHist.getData().add(series);
 		    
-		    if(chartHist!=null)
-		    	chartHist.getData().add(series);
-		    chartHist.setVisible(true);
+		    if(!chartHist.isVisible()){
+		    	chartHist.setVisible(true);
+		    }
+		    	
+//		    if(chartHist!=null)
+//		    	chartHist.getData().add(series);
+//		    chartHist.setVisible(true);
 		    
 		   
 		   
@@ -207,8 +223,7 @@ public class StartViewController implements Initializable {
 		
 		}
 		
-		
-			
+
 			for (int i=1; i<valuesList.size();i++){
 				int[] sum = new int[Main.goodsAmount];
 				XYChart.Series<String, Integer> serie = new XYChart.Series<>();
