@@ -136,7 +136,7 @@ public class StartViewController implements Initializable {
 	@FXML
 	public void OnActionHist(ActionEvent event) {
 		
-	
+		
 			loadHist();
 		
 	}
@@ -145,7 +145,8 @@ public class StartViewController implements Initializable {
 	 * Loading the Hostogramm
 	 */
 	public void loadHist(){
-	if(dataLoaded){
+		chartHist.getData().clear();
+		if(dataLoaded){
 			
 			int[] sum = new int[Main.goodsAmount];
 			//String[] titels =new String[Main.goodsAmount];
@@ -188,21 +189,56 @@ public class StartViewController implements Initializable {
 		}
 	}
 	
-	public void updateHist(String chosenValue){
+	public void updateHist(String groupName){
+		if (!chartHist.isVisible()){
+			chartHist.setVisible(true);
+		}
 		chartHist.getData().clear();
 		ArrayList<String> valuesList = new ArrayList<String>();
-		valuesList.add(chosenValue);
+		ArrayList<XYChart.Series<String, Integer>> series = new ArrayList<XYChart.Series<String,Integer>>();
+		valuesList.add(groupName);
+		
+		//Getting values for chosen Group 
+		
 		for(Transaction currentTransaction : Main.trList){
-			if (!valuesList.contains(currentTransaction.getValueData(chosenValue))){
-				valuesList.add(currentTransaction.getValueData(chosenValue));
+			if (!valuesList.contains(currentTransaction.getValueData(groupName))){
+				valuesList.add(currentTransaction.getValueData(groupName));
+			}
+		
+		}
+		
+		
+			
+			for (int i=1; i<valuesList.size();i++){
+				int[] sum = new int[Main.goodsAmount];
+				XYChart.Series<String, Integer> serie = new XYChart.Series<>();
+				serie.setName(valuesList.get(i));
+				//series.add(serie);
+				for(Transaction currentTransaction : Main.trList){
+				
+				
+				//System.out.println(valuesList.get(i));
+					if(currentTransaction.data.containsValue(valuesList.get(i))){
+				
+						for (int j=0; j<Main.goodsAmount;j++){
+							sum[j]+=currentTransaction.getValueGood(Main.goodsTitle[j]);
+						}
+					}
+			
+
+				}
+				for(int k=0;k<Main.goodsAmount; k++){
+					serie.getData().add(new XYChart.Data<>(Main.goodsTitle[k], Integer.valueOf(sum[k])));
+				}
+			
+			series.add(serie);
 			}
 			
 			
-			
-		}
-		
-		System.out.println(valuesList);
+			chartHist.getData().addAll(series);		
 	}
-	
-	
+		//System.out.println(valuesList);
 }
+	
+	
+

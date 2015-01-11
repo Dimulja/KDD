@@ -26,7 +26,7 @@
       <Button fx:id="aprioriButton" layoutX="158.0" layoutY="59.0" mnemonicParsing="false" onAction="#aprioriButtonOnAction" text="Apriori" />
       <VBox layoutX="17.0" layoutY="184.0">
          <children>
-            <ComboBox fx:id="box" editable="true" layoutX="17.0" layoutY="184.0" prefWidth="150.0" promptText="Select One" />
+            <ComboBox fx:id="box" layoutX="17.0" layoutY="184.0" prefWidth="150.0" promptText="Select One" />
          </children>
       </VBox>
    </children>
