@@ -24,6 +24,10 @@
       <Button fx:id="hist" layoutX="20.0" layoutY="59.0" mnemonicParsing="false" onAction="#OnActionHist" text="Histogram" />
       <Button fx:id="pie" layoutX="113.0" layoutY="59.0" mnemonicParsing="false" text="Pie" />
       <Button fx:id="aprioriButton" layoutX="158.0" layoutY="59.0" mnemonicParsing="false" onAction="#aprioriButtonOnAction" text="Apriori" />
-      <ChoiceBox fx:id="choiceStatistic" layoutX="14.0" layoutY="171.0" prefWidth="150.0" />
+      <VBox layoutX="17.0" layoutY="184.0">
+         <children>
+            <ComboBox fx:id="box" editable="true" layoutX="17.0" layoutY="184.0" prefWidth="150.0" promptText="Select One" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

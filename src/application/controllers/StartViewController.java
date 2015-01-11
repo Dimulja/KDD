@@ -21,6 +21,8 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import application.Main;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -33,6 +35,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
@@ -43,7 +46,7 @@ public class StartViewController implements Initializable {
 	@FXML
 	private Button OpenFile;
 	@FXML
-	private ChoiceBox choiceStatistic;
+	private ComboBox<String> box;
 	@FXML
 	private Button hist;
 	@FXML
@@ -55,7 +58,7 @@ public class StartViewController implements Initializable {
 	@FXML
 	private CategoryAxis xAxis;
 	
-	private ObservableList<String> goodsNames;
+	private ObservableList<String> goodsNames, dataNames;
 	private ArrayList<String> candidates=new ArrayList<String>();
 	
 	private boolean  dataLoaded;
@@ -65,7 +68,7 @@ public class StartViewController implements Initializable {
 	
 	
 	public StartViewController(){
-	
+		
 	}
 	
 
@@ -84,6 +87,27 @@ public class StartViewController implements Initializable {
         TReader.readTXT(file.getPath());
         hist.setDisable(false);
         dataLoaded=true;
+        //dataNames= FXCollections.observableArrayList(Main.dataTitle);
+       // Statistic st = new Statistic(choiceStatistic);
+      // choiceStatistic=st.getDataForCheckBox();
+      // st.fillTheBox();
+        dataNames=FXCollections.observableArrayList(Main.dataTitle);
+        System.out.println(dataNames);
+        //box = new ComboBox<String>();
+        box.setItems(dataNames);
+        System.out.println( box.getItems());
+        box.show();
+        box.valueProperty().addListener(new ChangeListener<String>() {
+            @Override 
+            public void changed(ObservableValue ov, String t, String t1) {
+                System.out.println(ov);
+                  System.out.println(t);
+                  System.out.println(t1); //t1 is a chosen Value
+                  updateHist(t1);
+              }    
+          });
+        box.setVisible(true);
+       
         }else{
         	System.out.println("No file was selected");
         	dataLoaded=false;
@@ -98,6 +122,8 @@ public class StartViewController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		dataLoaded=false;
 		hist.setDisable(true);
+		box.setVisible(false);
+
 	}
 	
 	@FXML
@@ -110,7 +136,16 @@ public class StartViewController implements Initializable {
 	@FXML
 	public void OnActionHist(ActionEvent event) {
 		
-		if(dataLoaded){
+	
+			loadHist();
+		
+	}
+	
+	/**
+	 * Loading the Hostogramm
+	 */
+	public void loadHist(){
+	if(dataLoaded){
 			
 			int[] sum = new int[Main.goodsAmount];
 			//String[] titels =new String[Main.goodsAmount];
@@ -124,9 +159,10 @@ public class StartViewController implements Initializable {
 			}
 			//observableArrayList for the Categorie Names
 			goodsNames = FXCollections.observableArrayList(Main.goodsTitle);
+			
 			//Setting the names to the xAxis
 			xAxis.setCategories(goodsNames); 
-		
+			//.setTickLabelRotation(45);
 		   
 		   
 		    //int[] x = new int[3];
@@ -134,6 +170,7 @@ public class StartViewController implements Initializable {
 		    
 		    XYChart.Series<String, Integer> series = new XYChart.Series<>();
 		    series.setName("Sums of foods from "+fileNameOfDataFile+"  ");
+		    
 	
 		    // Create a XYChart.Data object for each month. Add it to the series.
 		    for (int i = 0; i < Main.goodsAmount; i++) {
@@ -144,15 +181,28 @@ public class StartViewController implements Initializable {
 		    if(chartHist!=null)
 		    	chartHist.getData().add(series);
 		    chartHist.setVisible(true);
+		    
 		   
 		   
 		   
 		}
-			
-		
 	}
 	
-	
+	public void updateHist(String chosenValue){
+		chartHist.getData().clear();
+		ArrayList<String> valuesList = new ArrayList<String>();
+		valuesList.add(chosenValue);
+		for(Transaction currentTransaction : Main.trList){
+			if (!valuesList.contains(currentTransaction.getValueData(chosenValue))){
+				valuesList.add(currentTransaction.getValueData(chosenValue));
+			}
+			
+			
+			
+		}
+		
+		System.out.println(valuesList);
+	}
 	
 	
 }
