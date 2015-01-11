@@ -6,14 +6,20 @@ import java.util.StringTokenizer;
 import application.Main;
 
 public class Apriori {
-	
+	StartViewController controller;
 	private ArrayList<String> candidates = new ArrayList<String>();
-	private ArrayList<String> candidates2 = new ArrayList<String>();
-	private int minsup = 100;
-	private int numTransactions = Main.goodsAmount;
+	private ArrayList<String> candidatesProved = new ArrayList<String>();
+	private int minsup;
+	//private int numTransactions = Main.goodsAmount;
+	//private HashMap<String,String> tree=
 	
-	public void apriori(){
-			
+	public Apriori(StartViewController controller){
+		this.controller=controller;
+	}
+	
+	
+	public void apriori(int k){
+		minsup = k;
 		int itemsetNumber = 0;
 		itemsetNumber++;
 		generateCandidates(itemsetNumber);
@@ -36,12 +42,30 @@ public class Apriori {
 	                System.out.println(candidates);
 	            }
 			}
-		System.out.println("Ergebniss" + candidates2);
-			
+		System.out.println("Ergebniss" + candidatesProved);
+		System.out.println("Ergebniss 2 " + candidates);
+		
+		associationRules();
 		}
 	
+	private void associationRules(){
+		ArrayList<String> allIds = new ArrayList<String>();		
+		if(candidatesProved.size() > 0){
+			for(String s:candidatesProved){
+				String[] ids = s.split(" ");
+				for(int i=0;i<ids.length;i++){
+					if(!allIds.contains(ids[i])){
+						allIds.add(ids[i]);
+					}
+				}
+			}
+		}
+		controller.associationRulesValues(allIds);
+		System.out.println("all ids " + allIds.toString() );
+	}
+	
 	private void calculateFrequent(int n){
-		candidates2= new ArrayList<String>();
+		//candidates2= new ArrayList<String>();
 		ArrayList<String> tempCandidates = new ArrayList<String>(candidates);
 		int k=0;		
 		for(String candidat : tempCandidates){
@@ -65,7 +89,7 @@ public class Apriori {
 					for(int i=0; i < ids.length; i++){
 						//System.out.println(" znach " + tr.getValueGood( Main.goodsTitle[ Integer.parseInt(ids[i])-1 ] ));
 						//System.out.println(" titel " + Main.goodsTitle[ Integer.parseInt(ids[i])-1 ] );
-						if( tr.getValueGood( Main.goodsTitle[ Integer.parseInt(ids[i]) - 1 ] ) != 1 ){
+						if( tr.getValueGood( Main.goodsTitle[ Integer.parseInt(ids[i])  ] ) != 1 ){
 							f = false;
 							break;
 						}
@@ -73,7 +97,6 @@ public class Apriori {
 					if( f ){
 						//System.out.println(tr.goods.toString());
 						k++;
-						//System.out.println("!!!!!!!!!!!!! " + k);
 					} //else{
 						//System.out.println("delete");
 						//candidates.remove(candidat);
@@ -81,7 +104,7 @@ public class Apriori {
 					if(k >= minsup){
 						System.out.println("break " + candidat);
 						occurringItemsets=true;
-						candidates2.add(candidat);
+						//candidates2.add(candidat);
 						break;
 					}
 					
@@ -92,6 +115,9 @@ public class Apriori {
 				candidates.remove(candidat);
 			}
 			//}
+		}
+		if(candidates.size() > 0){
+			candidatesProved = new ArrayList<String>(candidates);
 		}
 		System.out.println("all cand " + candidates.toString());
 	}
@@ -105,7 +131,7 @@ public class Apriori {
         //if its the first set, candidates are just the numbers
         if(n==1)
         {
-            for(int i=1; i<= Main.goodsAmount; i++)
+            for(int i=0; i< Main.goodsAmount; i++)
             {
                 tempCandidates.add(Integer.toString(i));
             }
@@ -156,7 +182,12 @@ public class Apriori {
         //clear the old candidates
         candidates.clear();
         //set the new ones
-        candidates = new ArrayList<String>(tempCandidates);
+        if(!tempCandidates.isEmpty()){
+        	candidates = new ArrayList<String>(tempCandidates);
+        	System.out.println("Not proved erg " + candidates);
+        } else{
+        	System.out.println("NUULLLL");
+        }
         tempCandidates.clear();
     }
 }

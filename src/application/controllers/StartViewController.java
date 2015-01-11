@@ -2,6 +2,7 @@ package application.controllers;
 
 
 
+
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -34,8 +35,9 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
@@ -48,6 +50,10 @@ public class StartViewController implements Initializable {
 	@FXML
 	private ComboBox<String> box;
 	@FXML
+	private ComboBox<String> assozFrom;
+	@FXML
+	private ComboBox<String> assozTo;
+	@FXML
 	private Button hist;
 	@FXML
 	private Button pie;
@@ -56,9 +62,15 @@ public class StartViewController implements Initializable {
 	@FXML
 	private BarChart<String, Integer> chartHist;
 	@FXML
-	private CategoryAxis xAxis;
+	private CategoryAxis xAxis;	
+	@FXML
+	private Label minSupLabel;
+	@FXML 
+	private TextField minSupText;
+	@FXML
+	private Button aprioriButtonCalculate; 
 	
-	private ObservableList<String> goodsNames, dataNames;
+	private ObservableList<String> goodsNames, dataNames, allIds;
 	private ArrayList<String> candidates=new ArrayList<String>();
 	
 	private boolean  dataLoaded;
@@ -71,7 +83,16 @@ public class StartViewController implements Initializable {
 		
 	}
 	
-
+	@FXML
+	public void associationRulesValues(ArrayList<String> allIds){
+		dataNames=FXCollections.observableArrayList(allIds);
+        System.out.println(dataNames);
+        //box = new ComboBox<String>();
+        assozFrom.setItems(dataNames);
+        assozTo.setItems(dataNames);
+        assozFrom.setVisible(true);
+        assozFrom.setVisible(true);
+	}
 	
 	@FXML
 	public void OpenFilePress(ActionEvent event){
@@ -107,7 +128,7 @@ public class StartViewController implements Initializable {
               }    
           });
         box.setVisible(true);
-       
+        aprioriButton.setDisable(false);
         }else{
         	System.out.println("No file was selected");
         	dataLoaded=false;
@@ -128,17 +149,33 @@ public class StartViewController implements Initializable {
 	
 	@FXML
 	public void aprioriButtonOnAction(ActionEvent event) {
+		minSupText.setVisible(true);
+		minSupLabel.setVisible(true);
+		aprioriButtonCalculate.setVisible(true);
+		chartHist.setVisible(false);
+		
+	}
+	
+	@FXML
+	public void aprioriButtonCalculateOnAction(ActionEvent event) {
+		//choiceStatistic.		
 		System.out.println("apriori : ");
-		Apriori a= new Apriori();
-		a.apriori();
+		Apriori a= new Apriori(this);
+		try {
+			double supmin = Double.parseDouble(minSupText.getText());
+			supmin = Math.round(supmin / 100 * Main.trList.size());
+			System.out.println("supmin " + supmin + " Main.trList.size() " + Main.trList.size());
+			a.apriori((int) supmin);
+		} catch (Exception e) {
+			System.out.println("aprioriButtonCalculateOnAction " + e);
+		}
 	}
 
 	@FXML
 	public void OnActionHist(ActionEvent event) {
-		
-	
-			loadHist();
-		
+
+		loadHist();
+
 	}
 	
 	/**
