@@ -15,7 +15,7 @@
           <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+          <NumberAxis label="numberXis" side="LEFT" />
         </yAxis>
          <rotationAxis>
             <Point3D />
@@ -26,13 +26,13 @@
       <Button fx:id="aprioriButton" disable="true" layoutX="158.0" layoutY="59.0" mnemonicParsing="false" onAction="#aprioriButtonOnAction" text="Apriori" />
       <VBox layoutX="17.0" layoutY="184.0">
          <children>
-            <ComboBox fx:id="box" editable="true" layoutX="17.0" layoutY="184.0" prefWidth="150.0" promptText="Select One" />
+            <ComboBox fx:id="box" layoutX="17.0" layoutY="184.0" prefWidth="150.0" promptText="Select One" />
          </children>
       </VBox>
       <Label fx:id="minSupLabel" layoutX="14.0" layoutY="231.0" text="MinSup ( in % ):" visible="false" />
       <TextField fx:id="minSupText" layoutX="113.0" layoutY="226.0" prefHeight="26.0" prefWidth="48.0" visible="false" />
       <Button fx:id="aprioriButtonCalculate" layoutX="14.0" layoutY="268.0" mnemonicParsing="false" onAction="#aprioriButtonCalculateOnAction" text="Calculate" visible="false" />
-      <ComboBox fx:id="assozFrom" layoutX="17.0" layoutY="301.0" prefWidth="150.0" />
-      <ComboBox fx:id="assozTo" layoutX="17.0" layoutY="349.0" prefWidth="150.0" />
+      <ComboBox fx:id="assozFrom" layoutX="17.0" layoutY="301.0" prefWidth="150.0" visible="false" />
+      <ComboBox fx:id="assozTo" layoutX="17.0" layoutY="349.0" prefWidth="150.0" visible="false" />
    </children>
 </AnchorPane>

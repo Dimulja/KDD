@@ -60,7 +60,7 @@ public class Transaction {
 				Main.trList = null;
 			}
 		}
-		System.out.println(data.toString());
+		//System.out.println(data.toString());
 	}
 	
 	/**
