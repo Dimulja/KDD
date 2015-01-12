@@ -7,15 +7,17 @@ import java.io.LineNumberReader;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import application.Main;
 
 public class TxtReader {
 	
+	private ArrayList<List<String>> dataValues;
 	//Main Main;
 	//int goodsAmount, dataAmount;
 	public TxtReader(){
-		
+		dataValues= new ArrayList<List<String>>();
 		//this.Main=Main;
 		
 	}
@@ -68,13 +70,13 @@ public class TxtReader {
 					}
 					for (int i = 0; i < Main.dataAmount; i++) {
 						Main.dataTitle[i] = s[i + Main.goodsAmount];
+
 					}
 					break;
 				default: 
 					if (!line.isEmpty()) {
 						String[] data = line.split(cvsSplitBy);
-						Main.trList.add(new Transaction(data));
-						// Main.trList.get(Main.trList.size()-1).init(data);
+						Main.trList.add(new Transaction(data));	
 					}
 					break;
 			}

@@ -10,7 +10,7 @@
 <AnchorPane cacheHint="SCALE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.StartViewController">
    <children>
       <Button fx:id="OpenFile" layoutX="43.0" layoutY="38.0" mnemonicParsing="false" onAction="#OpenFilePress" text="Open TXT-File" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
-      <BarChart fx:id="chartHist" cacheHint="SCALE_AND_ROTATE" layoutX="108.0" layoutY="101.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="101.0">
+      <BarChart fx:id="chartHist" cache="true" cacheHint="SCALE_AND_ROTATE" layoutX="108.0" layoutY="101.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="101.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
@@ -28,9 +28,12 @@
          <children>
             <Label text="Group" />
             <ComboBox fx:id="box" layoutX="17.0" layoutY="184.0" prefWidth="150.0" promptText="Select One" />
-            <Button mnemonicParsing="false" text="Statistic" />
+            <Button fx:id="statButton" mnemonicParsing="false" onAction="#showStatistic" text="Statistic" />
+            <Label prefHeight="17.0" prefWidth="51.0" text="Value" />
+            <ComboBox fx:id="valueBox" prefWidth="150.0" promptText="Choise group first" />
+            <Button fx:id="addToListButton" mnemonicParsing="false" onAction="#addToList" text="Add to List" />
             <Label fx:id="minSupLabel" text="MinSup ( in % ):" />
-            <TextField fx:id="minSupText" prefHeight="26.0" prefWidth="48.0" />
+            <TextField fx:id="minSupText" prefHeight="26.0" prefWidth="48.0" promptText="1-100" />
             <Button fx:id="aprioriButtonCalculate" mnemonicParsing="false" onAction="#aprioriButtonCalculateOnAction" text="Calculate" />
             <Label text="Param1" />
             <ComboBox fx:id="assozFrom" prefWidth="150.0" />

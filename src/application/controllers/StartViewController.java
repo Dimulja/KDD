@@ -45,6 +45,14 @@ import javafx.stage.FileChooser;
 
 public class StartViewController implements Initializable {
 	
+	@FXML // fx:id="statButton"
+	private Button statButton; // Value injected by FXMLLoader
+	@FXML // fx:id="valueBox"
+	private ComboBox<String> valueBox; // Value injected by FXMLLoader
+	
+	@FXML // fx:id="addToListButton"
+    private Button addToListButton; // Value injected by FXMLLoader
+	
 	@FXML
 	private AnchorPane anchorPaneStart; 
 	@FXML
@@ -77,7 +85,7 @@ public class StartViewController implements Initializable {
 	@FXML
 	private VBox paramVBox;
 	
-
+	private ArrayList<String> valuesList;
 	
 	private ObservableList<String> goodsNames, dataNames, allIds;
 	private ArrayList<String> candidates=new ArrayList<String>();
@@ -91,6 +99,24 @@ public class StartViewController implements Initializable {
 	public StartViewController(){
 		
 	}
+	
+	
+	  @FXML
+	  void showStatistic(ActionEvent event) {
+		  System.out.println(box.getValue());
+		  if(box.getValue()!=null){
+			  xAxis.setLabel(box.getValue());
+			  updateHist(box.getValue());
+			  box.setValue(null);
+		  }
+	    }
+	
+	 @FXML
+	 void addToList(ActionEvent event) {
+
+	    }
+	  
+	  
 	
 	//@FXML
 	public void associationRulesValues(ArrayList<String> allIds){
@@ -133,12 +159,16 @@ public class StartViewController implements Initializable {
             @Override 
             public void changed(ObservableValue ov, String t, String t1) {
                 //TODO Update Histogram with chosen Statistic
+            	createValueList(t1);
+            	ArrayList<String> observableValuesList = new ArrayList<String>(valuesList);
+            	observableValuesList.remove(t1);
+            	valueBox.setItems(FXCollections.observableArrayList(observableValuesList));
             	
             	//System.out.println(ov);  
                  // System.out.println(t);  // Is the old value
                  // System.out.println(t1); //t1 is a chosen Value
             	
-            	updateHist(t1);
+            	//updateHist(t1); // Do something by change;
             	
                   
               }    
@@ -163,6 +193,7 @@ public class StartViewController implements Initializable {
 		
 		
 		numberXis.setLabel("Werte");
+		
 		
 
 	}
@@ -197,7 +228,7 @@ public class StartViewController implements Initializable {
 		
 			box.setValue(null);
 			loadHist();
-//			numberXis.autosize();
+			numberXis.setTickUnit(xAxis.getTickLength());
 //			numberXis.getLowerBound();
 //			numberXis.setAnimated(false);
 //			numberXis.scaleProperty();
@@ -263,18 +294,18 @@ public class StartViewController implements Initializable {
 			chartHist.setVisible(true);
 		}
 		chartHist.getData().clear();
-		ArrayList<String> valuesList = new ArrayList<String>();
+		//valuesList = new ArrayList<String>();
 		ArrayList<XYChart.Series<String, Integer>> series = new ArrayList<XYChart.Series<String,Integer>>();
-		valuesList.add(groupName);
-		
+		//valuesList.add(groupName);
+		createValueList(groupName);
 		//Getting values for chosen Group 
 		
-		for(Transaction currentTransaction : Main.trList){
-			if (!valuesList.contains(currentTransaction.getValueData(groupName))){
-				valuesList.add(currentTransaction.getValueData(groupName));
-			}
-		
-		}
+//		for(Transaction currentTransaction : Main.trList){
+//			if (!valuesList.contains(currentTransaction.getValueData(groupName))){
+//				valuesList.add(currentTransaction.getValueData(groupName));
+//			}
+//		
+//		}
 		
 
 			for (int i=1; i<valuesList.size();i++){
@@ -305,7 +336,21 @@ public class StartViewController implements Initializable {
 			
 			chartHist.getData().addAll(series);		
 	}
-		//System.out.println(valuesList);
+		
+	public void createValueList(String groupName){
+		valuesList = new ArrayList<String>();
+		valuesList.add(groupName);
+	
+		for(Transaction currentTransaction : Main.trList){
+			if (!valuesList.contains(currentTransaction.getValueData(groupName))){
+				valuesList.add(currentTransaction.getValueData(groupName));
+			}
+		
+		}
+	
+	}
+	
+	
 }
 	
 	
