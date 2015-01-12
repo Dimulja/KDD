@@ -40,6 +40,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 public class StartViewController implements Initializable {
@@ -69,9 +70,12 @@ public class StartViewController implements Initializable {
 	@FXML
 	private Button aprioriButtonCalculate; 
 	@FXML
-	private CategoryAxis xAxis;
-	@FXML
 	private NumberAxis numberXis;
+	@FXML
+	private CategoryAxis xAxis;
+	
+	@FXML
+	private VBox paramVBox;
 	
 
 	
@@ -88,7 +92,7 @@ public class StartViewController implements Initializable {
 		
 	}
 	
-	@FXML
+	//@FXML
 	public void associationRulesValues(ArrayList<String> allIds){
 		dataNames=FXCollections.observableArrayList(allIds);
         System.out.println(dataNames);
@@ -113,6 +117,7 @@ public class StartViewController implements Initializable {
         TReader.readTXT(file.getPath());
         hist.setDisable(false);
         dataLoaded=true;
+        paramVBox.setVisible(true);
         
         //dataNames= FXCollections.observableArrayList(Main.dataTitle);
        // Statistic st = new Statistic(choiceStatistic);
@@ -132,7 +137,10 @@ public class StartViewController implements Initializable {
             	//System.out.println(ov);  
                  // System.out.println(t);  // Is the old value
                  // System.out.println(t1); //t1 is a chosen Value
-                  updateHist(t1);
+            	
+            	updateHist(t1);
+            	
+                  
               }    
           });
         box.setVisible(true);
@@ -152,6 +160,9 @@ public class StartViewController implements Initializable {
 		dataLoaded=false;
 		hist.setDisable(true);
 		box.setVisible(false);
+		
+		
+		numberXis.setLabel("Werte");
 		
 
 	}

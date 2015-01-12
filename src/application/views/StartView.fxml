@@ -15,7 +15,7 @@
           <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
         <yAxis>
-          <NumberAxis label="numberXis" side="LEFT" />
+          <NumberAxis fx:id="numberXis" side="LEFT" />
         </yAxis>
          <rotationAxis>
             <Point3D />
@@ -24,16 +24,18 @@
       <Button fx:id="hist" layoutX="20.0" layoutY="59.0" mnemonicParsing="false" onAction="#OnActionHist" text="Histogram" />
       <Button fx:id="pie" layoutX="113.0" layoutY="59.0" mnemonicParsing="false" text="Pie" />
       <Button fx:id="aprioriButton" disable="true" layoutX="158.0" layoutY="59.0" mnemonicParsing="false" onAction="#aprioriButtonOnAction" text="Apriori" />
-      <VBox layoutX="17.0" layoutY="184.0">
+      <VBox fx:id="paramVBox" layoutX="17.0" layoutY="184.0" visible="false" AnchorPane.topAnchor="100.0">
          <children>
             <Label text="Group" />
             <ComboBox fx:id="box" layoutX="17.0" layoutY="184.0" prefWidth="150.0" promptText="Select One" />
             <Button mnemonicParsing="false" text="Statistic" />
-            <Label fx:id="minSupLabel" text="MinSup ( in % ):" visible="false" />
-            <TextField fx:id="minSupText" prefHeight="26.0" prefWidth="48.0" visible="false" />
-            <Button fx:id="aprioriButtonCalculate" mnemonicParsing="false" onAction="#aprioriButtonCalculateOnAction" text="Calculate" visible="false" />
-            <ComboBox fx:id="assozFrom" prefWidth="150.0" visible="false" />
-            <ComboBox fx:id="assozTo" prefHeight="25.0" prefWidth="150.0" visible="false" />
+            <Label fx:id="minSupLabel" text="MinSup ( in % ):" />
+            <TextField fx:id="minSupText" prefHeight="26.0" prefWidth="48.0" />
+            <Button fx:id="aprioriButtonCalculate" mnemonicParsing="false" onAction="#aprioriButtonCalculateOnAction" text="Calculate" />
+            <Label text="Param1" />
+            <ComboBox fx:id="assozFrom" prefWidth="150.0" />
+            <Label text="Param2" />
+            <ComboBox fx:id="assozTo" prefHeight="25.0" prefWidth="150.0" />
          </children>
       </VBox>
    </children>
