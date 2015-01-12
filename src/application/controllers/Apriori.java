@@ -9,6 +9,7 @@ public class Apriori {
 	StartViewController controller;
 	private ArrayList<String> candidates = new ArrayList<String>();
 	private ArrayList<String> candidatesProved = new ArrayList<String>();
+	private ArrayList<Result> result = new ArrayList<Result>();
 	private int minsup;
 	//private int numTransactions = Main.goodsAmount;
 	//private HashMap<String,String> tree=
@@ -44,13 +45,19 @@ public class Apriori {
 			}
 		System.out.println("Ergebniss" + candidatesProved);
 		System.out.println("Ergebniss 2 " + candidates);
+		ArrayList<String> str=new ArrayList<String>();
 		for(String s : candidatesProved ){
 			String[] el = s.split(" ");
+			String res="";
 			for(int i=0; i< el.length; i++){
 				System.out.print(Main.goodsTitle[Integer.parseInt(el[i])]+ " , ");
+				res += Main.goodsTitle[Integer.parseInt(el[i])]+ " , ";
 			}
+			str.add(res);
 			System.out.println("");
 		}
+		controller.aprioriResultShow(str);
+		//controller.aprioriResultShow();
 		associationRules();
 		}
 	
@@ -69,31 +76,39 @@ public class Apriori {
 		controller.associationRulesValues(allIds);
 		System.out.println("all ids " + allIds.toString() );
 		//for(int i=0;i<allIds.size();i++){
-		HashMap<String,Integer> res=new HashMap<String,Integer>();
+		HashMap<String,Double> res=new HashMap<String,Double>();
 		for(String id : allIds){
-			int allCount = 0;
+			double allCount = 0;
 			for(String cand:candidatesProved){
 				if(cand.contains(id)){
-					allCount++;
-				}
-				for(String id2: allIds){
-					int k=0;
-					if(cand.compareTo(id2)!=0){
-						for(String cand2:candidatesProved){
-							if(cand2.contains(id2) && cand2.contains(id)){
-								k++;
-							}
-						}
-						res.put((id+" "+id2), k);
-					}
+				allCount++;
 				}
 			}
-			System.out.println("x " + res.toString());
+			for(String id2: allIds){
+				double k=0;
+				if(id.compareTo(id2) != 0){
+					for(String cand2:candidatesProved){
+						if (cand2.contains(id + " " + id2)) { // &&cand2.contains(id)){
+							k++;
+							//System.out.println(".... "+cand2+" , " +id+" , "+id2+ "  k="+ k);
+							res.put((Main.goodsTitle[Integer.parseInt(id)] + " to " + Main.goodsTitle[Integer.parseInt(id2)]), (k/allCount*100));
+							//break;
+						}
+					}
+			//if (k > 0) {
+				} //else { allCount++; }
+					
+						//}
+					
+				//}
+			}
 			System.out.println("count " + id +" "+ allCount);
 		}
+		System.out.println("x " + res.toString());
+		
 	}
 	
-	private void calculateFrequent(int n){
+	private void calculateFrequent(int n) {
 		//candidates2= new ArrayList<String>();
 		ArrayList<String> tempCandidates = new ArrayList<String>(candidates);
 		int k=0;		
