@@ -1,7 +1,7 @@
 package application.controllers;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.StringTokenizer;
-
 
 import application.Main;
 
@@ -68,6 +68,29 @@ public class Apriori {
 		}
 		controller.associationRulesValues(allIds);
 		System.out.println("all ids " + allIds.toString() );
+		//for(int i=0;i<allIds.size();i++){
+		HashMap<String,Integer> res=new HashMap<String,Integer>();
+		for(String id : allIds){
+			int allCount = 0;
+			for(String cand:candidatesProved){
+				if(cand.contains(id)){
+					allCount++;
+				}
+				for(String id2: allIds){
+					int k=0;
+					if(cand.compareTo(id2)!=0){
+						for(String cand2:candidatesProved){
+							if(cand2.contains(id2) && cand2.contains(id)){
+								k++;
+							}
+						}
+						res.put((id+" "+id2), k);
+					}
+				}
+			}
+			System.out.println("x " + res.toString());
+			System.out.println("count " + id +" "+ allCount);
+		}
 	}
 	
 	private void calculateFrequent(int n){
