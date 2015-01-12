@@ -152,6 +152,7 @@ public class StartViewController implements Initializable {
 		dataLoaded=false;
 		hist.setDisable(true);
 		box.setVisible(false);
+		
 
 	}
 	
@@ -187,7 +188,8 @@ public class StartViewController implements Initializable {
 			loadHist();
 //			numberXis.autosize();
 //			numberXis.getLowerBound();
-			
+//			numberXis.setAnimated(false);
+//			numberXis.scaleProperty();
 			
 	
 	}
