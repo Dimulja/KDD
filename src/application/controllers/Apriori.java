@@ -104,7 +104,47 @@ public class Apriori {
 			}
 			System.out.println("count " + id +" "+ allCount);
 		}
-		System.out.println("x " + res.toString());
+		System.out.println("x (count "+res.size()+" ) " + res.toString());
+		
+	}
+	
+	private void associationRules2(){
+		ArrayList<String> allIds = new ArrayList<String>();		
+		if(candidatesProved.size() > 0){
+			for(String s:candidatesProved){
+				String[] ids = s.split(" ");
+				for(int i=0;i<ids.length;i++){
+					if(!allIds.contains(ids[i])){
+						allIds.add(ids[i]);
+					}
+				}
+			}
+		}
+		controller.associationRulesValues(allIds);
+		System.out.println("all ids " + allIds.toString() );
+		//for(int i=0;i<allIds.size();i++){
+		HashMap<String,Double> res=new HashMap<String,Double>();
+		for(String id : allIds){
+			double allCount = 0;
+			for(String cand:candidatesProved){
+				if(cand.contains(id)){
+				allCount++;
+				}
+			}
+			res.put(id,allCount);
+		}
+		for(String cand:candidatesProved){
+			double k=0;
+			for (String cand2 : candidatesProved) {
+				if (cand.compareTo(cand2) != 0) {
+					if (cand.contains(cand2)) { // &&cand2.contains(id)){
+						k++;
+						res.put((cand + " to " + cand2), (k));
+					}
+				}
+			}
+		}
+		System.out.println("x (count "+res.size()+" ) " + res.toString());
 		
 	}
 	
