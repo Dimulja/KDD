@@ -9,7 +9,6 @@ public class Apriori {
 	StartViewController controller;
 	private ArrayList<String> candidates = new ArrayList<String>();
 	private ArrayList<String> candidatesProved = new ArrayList<String>();
-	private ArrayList<Result> result = new ArrayList<Result>();
 	private int minsup;
 	//private int numTransactions = Main.goodsAmount;
 	//private HashMap<String,String> tree=

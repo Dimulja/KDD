@@ -111,7 +111,7 @@ public class StartViewController implements Initializable {
 	
 	
 	  @FXML
-	void showStatistic(ActionEvent event) {
+	  void showStatistic(ActionEvent event) {
 		  System.out.println(box.getValue());
 		  if(box.getValue()!=null){
 			  xAxis.setLabel(box.getValue());
@@ -121,9 +121,9 @@ public class StartViewController implements Initializable {
 	    }
 	
 	 @FXML
-	void addToList(ActionEvent event) {
+	public void addToList(ActionEvent event) {
 
-	    }
+	}
 	  
 	public void aprioriResultShow(ArrayList<String> str){  
 		 
@@ -156,8 +156,7 @@ public class StartViewController implements Initializable {
         assozFrom.setVisible(true);
         assozTo.setVisible(true);
 	}
-	
-	
+		
 	@FXML
 	public void OpenFilePress(ActionEvent event){
 		FileChooser fileChooser = new FileChooser();
@@ -370,5 +369,6 @@ public class StartViewController implements Initializable {
 	
 	
 }
+
 	
 	
