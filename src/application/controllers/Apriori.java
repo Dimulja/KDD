@@ -22,6 +22,7 @@ public class Apriori {
 
 	public void apriori(double k) {
 		minsup = (int) Math.round(k / 100 * Main.trList.size());
+
 		int itemsetNumber = 0;
 		itemsetNumber++;
 		generateCandidates(itemsetNumber);
@@ -78,6 +79,7 @@ public class Apriori {
 					}
 				}
 			}
+
 			
 			for(Rules rule : resRules){
 				
@@ -117,6 +119,7 @@ public class Apriori {
 					}
 				}
 			}
+
 		} else {
 			// ArrayList<Rules> rules =new ArrayList<Rules>();
 			for (String str : perm) {
@@ -131,6 +134,7 @@ public class Apriori {
 				resRules.add(rule);
 				from.clear();
 				to.clear();
+
 			}
 
 		}
@@ -196,6 +200,7 @@ public class Apriori {
 				ids[0] = candidat;
 			}
 			
+
 			for (Transaction tr : Main.trList) {
 
 							boolean f = true;
@@ -208,7 +213,10 @@ public class Apriori {
 							}
 							if (f) {
 								k++;
-							}			
+
+							}
+
+
 			}
 
 			if (k < minsup) {
