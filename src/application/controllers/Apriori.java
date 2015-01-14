@@ -93,8 +93,8 @@ public class Apriori {
 			System.out.println("res.size() " + resRules.size());
 			for(Rules rule : resRules){
 				String all = rule.allToString();
-				String from = rule.fromToString() ;
-				System.out.println(from+ " , " + all); 
+				String from = rule.fromToString();
+				
 				System.out.println(rule.getFrom()+ " " + rule.getTo() +"   " + (candidatesHm.get(all)/candidatesHm.get(from)) );
 			}
 		}
@@ -297,8 +297,7 @@ public class Apriori {
 
 					// if they have the same n-2 tokens, add them together
 					if (str2.compareToIgnoreCase(str1) == 0)
-						tempCandidates
-								.add((str1 + " " + st1.nextToken() + " " + st2
+						tempCandidates.add((str1 + " " + st1.nextToken() + " " + st2
 										.nextToken()).trim());
 				}
 			}
