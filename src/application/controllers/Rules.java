@@ -1,9 +1,5 @@
 package application.controllers;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.StringTokenizer;
-
-import application.Main;
 
 public class Rules {
 	ArrayList<Integer> from = new ArrayList<Integer>();
@@ -55,11 +51,11 @@ public class Rules {
 		return s;
 	}
 	
-	public ArrayList getFrom(){
+	public ArrayList<Integer> getFrom(){
 		return from;
 	}
 	
-	public ArrayList getTo(){
+	public ArrayList<Integer> getTo(){
 		return to;
 	}
 }
