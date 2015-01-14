@@ -349,8 +349,6 @@ public class StartViewController implements Initializable {
 			
 			series.add(serie);
 			}
-			
-			
 			chartHist.getData().addAll(series);		
 	}
 		
@@ -366,7 +364,6 @@ public class StartViewController implements Initializable {
 		}
 	
 	}
-	
 	
 }
 
