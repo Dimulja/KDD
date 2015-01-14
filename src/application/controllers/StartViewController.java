@@ -26,13 +26,10 @@ import java.util.Vector;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import application.Main;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
 //import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,16 +43,15 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.MapValueFactory;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 public class StartViewController implements Initializable {
 	
-	
+	@FXML
+    private Label filterLabel;
     @FXML
     private TableColumn<?, ?> fromColumn;
     @FXML
@@ -69,6 +65,9 @@ public class StartViewController implements Initializable {
 	
 	@FXML // fx:id="addToListButton"
     private Button addToListButton; // Value injected by FXMLLoader
+	
+	@FXML
+    private ComboBox<Integer> minConf, minSupText;
 	
 	@FXML
 	private AnchorPane anchorPaneStart; 
@@ -90,8 +89,6 @@ public class StartViewController implements Initializable {
 	private BarChart<String, Integer> chartHist;
 	@FXML
 	private Label minSupLabel;
-	@FXML 
-	private TextField minSupText;
 	@FXML
 	private Button aprioriButtonCalculate; 
 	@FXML
@@ -100,8 +97,8 @@ public class StartViewController implements Initializable {
 	private CategoryAxis xAxis;
 	@FXML
 	private TableView aprioriTable;
-	//@FXML
-	//private TableColumn rulesCol;
+	@FXML
+	private Button resetButton;
 	//@FXML
 	//private TableColumn supCol;
 	
@@ -110,11 +107,12 @@ public class StartViewController implements Initializable {
 	
 	private ArrayList<String> valuesList;
 	
-	private ObservableList<String> goodsNames, dataNames, allIds, rulesData;
-	private ArrayList<String> candidates=new ArrayList<String>();
+	private ObservableList<String> goodsNames, dataNames;
 	private  ArrayList<Rules> resRules;
 	private boolean  dataLoaded;
 	private String fileNameOfDataFile;
+	SimpleStringProperty filter;
+
 	
 	
 	
@@ -137,7 +135,10 @@ public class StartViewController implements Initializable {
 	
 	 @FXML
 	public void addToList(ActionEvent event) {
-
+		 if((box.getValue()!=null) &&  valueBox.getValue()!=null){
+			 filter.setValue(box.getValue()+":"+valueBox.getValue());
+			 filterLabel.setText(filter.getValue());
+		 }
 	}
 	  
 	public void aprioriResultShow(ArrayList<String> str){  
@@ -217,7 +218,6 @@ public class StartViewController implements Initializable {
               }    
           });
         box.setVisible(true);
-        aprioriButton.setDisable(false);
         }else{
         	System.out.println("No file was selected");
         	dataLoaded=false;
@@ -229,22 +229,24 @@ public class StartViewController implements Initializable {
 		dataLoaded=false;
 		hist.setDisable(true);
 		box.setVisible(false);
-		
+		 ObservableList<Integer> boxValues=FXCollections.observableArrayList();
 		
 		numberXis.setLabel("Werte");
+		for(int i=1;i<101;i++){
+			boxValues.add(i);
+		}
+		
+		minConf.setItems(boxValues);
+		minConf.setValue(20);
+		minSupText.setItems(boxValues);
+		minSupText.setValue(20);
+		filter = new SimpleStringProperty();
+		
 		
 		
 
 	}
 	
-	@FXML
-	public void aprioriButtonOnAction(ActionEvent event) {
-		minSupText.setVisible(true);
-		minSupLabel.setVisible(true);
-		aprioriButtonCalculate.setVisible(true);
-		chartHist.setVisible(false);
-		
-	}
 	
 	@FXML
 	public void aprioriButtonCalculateOnAction(ActionEvent event) {
@@ -252,10 +254,10 @@ public class StartViewController implements Initializable {
 		//System.out.println("apriori : ");
 		Apriori a= new Apriori(this);
 		try {
-			double supmin = Double.parseDouble(minSupText.getText());
-			supmin = Math.round(supmin / 100 * Main.trList.size());
+			double supmin = (double)minSupText.getValue();
+			//supmin = Math.round(supmin / 100 * Main.trList.size());
 			System.out.println("supmin " + supmin + " Main.trList.size() " + Main.trList.size());
-			a.apriori((int) supmin);
+			a.apriori(supmin);
 		} catch (Exception e) {
 			//System.out.println("aprioriButtonCalculateOnAction " + e);
 		}
@@ -269,20 +271,22 @@ public class StartViewController implements Initializable {
 		column2.setCellValueFactory(new MapValueFactory(1));
 		column3.setCellValueFactory(new MapValueFactory(2));
 		aprioriTable.getColumns().addAll(column,column2, column3);
+		System.out.println(resRules);
 		for(Rules rule: resRules){
+			if(rule.getConf()>=minConf.getValue()/100){
+				
 			
 			Map<Integer, String> dataRow = new HashMap<>();
-//			fromColumn.setCellValueFactory(new MapValueFactory(rule.getFrom().toString()));
-//			toColumn.setCellValueFactory(new MapValueFactory(rule.getTo().toString()));///
-//			confColumn.setCellValueFactory(new MapValueFactory(rule.getConf()));
-//			aprioriTable.getColumns().addAll(fromColumn,toColumn,confColumn);
 			
-			dataRow.put(0, rule.getFrom().toString());
 			
-			dataRow.put(1, rule.getTo().toString());
+			
+			dataRow.put(0, getTitlesFromArrayList(rule.getFrom()));
+			
+			dataRow.put(1, getTitlesFromArrayList(rule.getTo()));
 			dataRow.put(2, String.valueOf(rule.getConf()));
 			//System.out.println(confColumn.toString());
 			tableData.add(dataRow);
+			}
 		}
 		
 ////		aprioriTable.getColumns().add(fromColumn);
@@ -397,6 +401,13 @@ public class StartViewController implements Initializable {
 			}
 			chartHist.getData().addAll(series);		
 	}
+	
+	
+	   @FXML
+	    void resetList(ActionEvent event) {
+		   filterLabel.setText(null);
+	    }
+	
 		
 	public void createValueList(String groupName){
 		valuesList = new ArrayList<String>();
@@ -412,10 +423,22 @@ public class StartViewController implements Initializable {
 	}
 	
 	
+	private String getTitlesFromArrayList(ArrayList<Integer> partRule){
+		String s="";
+		for(int i=0;i<partRule.size();i++){
+			s+=" ["+Main.goodsTitle[partRule.get(i)]+"]";
+		}
+		return s;
+	}
+	
 	public void setRules(ArrayList<Rules> rules){
 		resRules= new ArrayList<Rules>(rules);
 	}
 	
+	public String getFilter(){
+		System.out.println(filterLabel.getText());
+		return filterLabel.getText();
+	}
 	
 }
 

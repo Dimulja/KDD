@@ -20,8 +20,9 @@ public class Apriori {
 		this.controller = controller;
 	}
 
-	public void apriori(int k) {
-		minsup = k;
+	public void apriori(double k) {
+		minsup = (int) Math.round(k / 100 * Main.trList.size());
+		System.out.println(" minsup "+minsup);
 		int itemsetNumber = 0;
 		itemsetNumber++;
 		generateCandidates(itemsetNumber);
@@ -63,7 +64,7 @@ public class Apriori {
 		associationRules2();
 	}
 
-	private static int[] splitConverter(String s, String reg) {
+	public static int[] splitConverter(String s, String reg) {
 		String[] str = s.split(reg);
 		int[] res = new int[str.length];
 		for (int i = 0; i < str.length; i++) {
@@ -230,19 +231,50 @@ public class Apriori {
 				ids = new String[1];
 				ids[0] = candidat;
 			}
+			
+			//if(controller.getFilter()!=null){
 			for (Transaction tr : Main.trList) {
-				boolean f = true;
-				for (int i = 0; i < ids.length; i++) {
-					if (tr.getValueGood(Main.goodsTitle[Integer
-							.parseInt(ids[i])]) != 1) {
-						f = false;
-						break;
-					}
-				}
-				if (f) {
-					k++;
-				}
+					//String[] splitted =controller.getFilter().split(":");
+						//if(tr.getValueData(splitted[0])==splitted[1]){
+							boolean f = true;
+							for (int i = 0; i < ids.length; i++) {
+								if (tr.getValueGood(Main.goodsTitle[Integer
+										.parseInt(ids[i])]) != 1) {
+									f = false;
+									break;
+								}
+							}
+							if (f) {
+								k++;
+							}
+						//}	
+			//end if
+			
 			}
+		//	}
+////============================================================
+//			for (Transaction tr : Main.trList) {
+//				String[] splitted =controller.getFilter().split(":");
+//					if(tr.getValueData(splitted[0])==splitted[1]){
+//						boolean f = true;
+//						for (int i = 0; i < ids.length; i++) {
+//							if (tr.getValueGood(Main.goodsTitle[Integer
+//									.parseInt(ids[i])]) != 1) {
+//								f = false;
+//								break;
+//							}
+//						}
+//						if (f) {
+//							k++;
+//						}
+//					}	
+//		
+//		
+//		}//end for
+//			
+//			}end
+////===========================================
+			
 			if (k < minsup) {
 				// System.out.println("remove " + candidat);
 				candidates.remove(candidat);

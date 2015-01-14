@@ -22,6 +22,7 @@ public class Main extends Application {
 	private Stage primaryStage;
 	
 	public static ArrayList<Transaction> trList = new ArrayList<Transaction>();
+	//public static ArrayList<Transaction> trList = new ArrayList<Transaction>();
 	public static int goodsAmount, dataAmount; 
 	public static String[] goodsTitle;
 	public static String[] dataTitle;

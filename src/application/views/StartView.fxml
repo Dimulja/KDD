@@ -22,8 +22,6 @@
          </rotationAxis>
       </BarChart>
       <Button fx:id="hist" layoutX="20.0" layoutY="59.0" mnemonicParsing="false" onAction="#OnActionHist" text="Histogram" />
-      <Button fx:id="pie" layoutX="113.0" layoutY="59.0" mnemonicParsing="false" text="Pie" />
-      <Button fx:id="aprioriButton" disable="true" layoutX="158.0" layoutY="59.0" mnemonicParsing="false" onAction="#aprioriButtonOnAction" text="Apriori" />
       <VBox fx:id="paramVBox" layoutX="17.0" layoutY="184.0" visible="false" AnchorPane.topAnchor="100.0">
          <children>
             <Label text="Group" />
@@ -32,14 +30,19 @@
             <Label prefHeight="17.0" prefWidth="51.0" text="Value" />
             <ComboBox fx:id="valueBox" prefWidth="150.0" promptText="Choise group first" />
             <Button fx:id="addToListButton" mnemonicParsing="false" onAction="#addToList" text="Add to List" />
+            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#resetList" text="Reset List" />
             <Label fx:id="minSupLabel" text="MinSup ( in % ):" />
-            <TextField fx:id="minSupText" prefHeight="26.0" prefWidth="48.0" promptText="1-100" />
+            <ComboBox fx:id="minSupText" prefWidth="150.0" />
+            <Label fx:id="minSupLabel1" text="MinConf ( in % ):" />
+            <ComboBox fx:id="minConf" prefWidth="150.0" promptText="20" />
             <Button fx:id="aprioriButtonCalculate" mnemonicParsing="false" onAction="#aprioriButtonCalculateOnAction" text="Calculate" />
          </children>
       </VBox>
-      <TableView fx:id="aprioriTable" layoutX="229.0" layoutY="157.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
+      <TableView fx:id="aprioriTable" layoutX="229.0" layoutY="157.0" visible="false" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy></TableView>
+      <Label layoutX="200.0" layoutY="63.0" text="Constraint:" />
+      <Label fx:id="filterLabel" layoutX="268.0" layoutY="63.0" prefHeight="17.0" prefWidth="212.0" />
    </children>
 </AnchorPane>
