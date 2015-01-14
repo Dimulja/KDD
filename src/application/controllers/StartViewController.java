@@ -7,6 +7,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 
@@ -21,11 +23,15 @@ import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import application.Main;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 //import application.Main;
 import javafx.event.ActionEvent;
@@ -41,6 +47,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -48,6 +55,13 @@ import javafx.stage.FileChooser;
 
 public class StartViewController implements Initializable {
 	
+	
+    @FXML
+    private TableColumn<?, ?> fromColumn;
+    @FXML
+    private TableColumn<?, ?> toColumn;
+    @FXML
+    private TableColumn<?, ?> confColumn;
 	@FXML // fx:id="statButton"
 	private Button statButton; // Value injected by FXMLLoader
 	@FXML // fx:id="valueBox"
@@ -85,7 +99,7 @@ public class StartViewController implements Initializable {
 	@FXML
 	private CategoryAxis xAxis;
 	@FXML
-	private TableView<String> aprioriTable;
+	private TableView aprioriTable;
 	//@FXML
 	//private TableColumn rulesCol;
 	//@FXML
@@ -98,7 +112,7 @@ public class StartViewController implements Initializable {
 	
 	private ObservableList<String> goodsNames, dataNames, allIds, rulesData;
 	private ArrayList<String> candidates=new ArrayList<String>();
-	
+	private  ArrayList<Rules> resRules;
 	private boolean  dataLoaded;
 	private String fileNameOfDataFile;
 	
@@ -117,6 +131,7 @@ public class StartViewController implements Initializable {
 			  xAxis.setLabel(box.getValue());
 			  updateHist(box.getValue());
 			  box.setValue(null);
+			  aprioriTable.setVisible(false);
 		  }
 	    }
 	
@@ -127,22 +142,22 @@ public class StartViewController implements Initializable {
 	  
 	public void aprioriResultShow(ArrayList<String> str){  
 		 
-		 rulesData = FXCollections.observableArrayList(str);
-		 //TableColumn<String, String> col1 = new TableColumn<String, String>("Col 1");        
-		 //col1.setCellValueFactory(new PropertyValueFactory<String, String>("column1"))
-		// rulesCol.setCellValueFactory( new PropertyValueFactory<String, String>("column1") );
-		 aprioriTable.getColumns().clear();		 
-		// table.setItems(cityList);
-		 
-		 //aprioriTable.getColumns().add(col1);
-		 TableColumn<String, String> rulesColumn = new TableColumn<String, String>("Rules");
-		 aprioriTable.getColumns().add(rulesColumn);
-		 rulesColumn.setPrefWidth(aprioriTable.getPrefWidth() - 2);
-		 
-		 aprioriTable.setItems(rulesData);
-		 aprioriTable.setVisible(true);
-		 
-		 System.out.println(aprioriTable.getItems().toString());
+//		 rulesData = FXCollections.observableArrayList(str);
+//		 //TableColumn<String, String> col1 = new TableColumn<String, String>("Col 1");        
+//		 //col1.setCellValueFactory(new PropertyValueFactory<String, String>("column1"))
+//		// rulesCol.setCellValueFactory( new PropertyValueFactory<String, String>("column1") );
+//		 aprioriTable.getColumns().clear();		 
+//		// table.setItems(cityList);
+//		 
+//		 //aprioriTable.getColumns().add(col1);
+//		 TableColumn<String, String> rulesColumn = new TableColumn<String, String>("Rules");
+//		 aprioriTable.getColumns().add(rulesColumn);
+//		 rulesColumn.setPrefWidth(aprioriTable.getPrefWidth() - 2);
+//		 
+//		 aprioriTable.setItems(rulesData);
+//		 aprioriTable.setVisible(true);
+//		 
+//		 System.out.println(aprioriTable.getItems().toString());
 		 //rulesCol.setCellValueFactory(rulesData);
 	 }
 	
@@ -234,7 +249,7 @@ public class StartViewController implements Initializable {
 	@FXML
 	public void aprioriButtonCalculateOnAction(ActionEvent event) {
 		//choiceStatistic.		
-		System.out.println("apriori : ");
+		//System.out.println("apriori : ");
 		Apriori a= new Apriori(this);
 		try {
 			double supmin = Double.parseDouble(minSupText.getText());
@@ -242,8 +257,38 @@ public class StartViewController implements Initializable {
 			System.out.println("supmin " + supmin + " Main.trList.size() " + Main.trList.size());
 			a.apriori((int) supmin);
 		} catch (Exception e) {
-			System.out.println("aprioriButtonCalculateOnAction " + e);
+			//System.out.println("aprioriButtonCalculateOnAction " + e);
 		}
+		if(aprioriTable.getColumns().size()>0)
+		aprioriTable.getColumns().remove(0, 3);
+		ObservableList<Map> tableData = FXCollections.observableArrayList();
+		TableColumn<Map, String> column = new TableColumn<>("From");
+		TableColumn<Map, String> column2 = new TableColumn<>("To");
+		TableColumn<Map, String> column3 = new TableColumn<>("Conf");
+		column.setCellValueFactory(new MapValueFactory(0));
+		column2.setCellValueFactory(new MapValueFactory(1));
+		column3.setCellValueFactory(new MapValueFactory(2));
+		aprioriTable.getColumns().addAll(column,column2, column3);
+		for(Rules rule: resRules){
+			
+			Map<Integer, String> dataRow = new HashMap<>();
+//			fromColumn.setCellValueFactory(new MapValueFactory(rule.getFrom().toString()));
+//			toColumn.setCellValueFactory(new MapValueFactory(rule.getTo().toString()));///
+//			confColumn.setCellValueFactory(new MapValueFactory(rule.getConf()));
+//			aprioriTable.getColumns().addAll(fromColumn,toColumn,confColumn);
+			
+			dataRow.put(0, rule.getFrom().toString());
+			
+			dataRow.put(1, rule.getTo().toString());
+			dataRow.put(2, String.valueOf(rule.getConf()));
+			//System.out.println(confColumn.toString());
+			tableData.add(dataRow);
+		}
+		
+////		aprioriTable.getColumns().add(fromColumn);
+		aprioriTable.setItems(tableData);
+		aprioriTable.setVisible(true);
+		
 	}
 
 	@FXML
@@ -251,6 +296,7 @@ public class StartViewController implements Initializable {
 			box.setValue(null);
 			loadHist();
 			numberXis.setTickUnit(xAxis.getTickLength());
+			aprioriTable.setVisible(false);
 	}
 	
 	/**
@@ -364,6 +410,12 @@ public class StartViewController implements Initializable {
 		}
 	
 	}
+	
+	
+	public void setRules(ArrayList<Rules> rules){
+		resRules= new ArrayList<Rules>(rules);
+	}
+	
 	
 }
 

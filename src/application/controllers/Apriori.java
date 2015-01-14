@@ -91,6 +91,7 @@ public class Apriori {
 				}
 			}
 			System.out.println("res.size() " + resRules.size());
+			
 			for(Rules rule : resRules){
 				
 				String all = rule.allToString();
@@ -99,6 +100,7 @@ public class Apriori {
 				System.out.println(rule.getFrom()+ " " + rule.getTo() +"   " + rule.getConf() );
 			}
 		}
+		controller.setRules(resRules);
 	}
 
 	private static void generateAssociationRules(int[] ids) {

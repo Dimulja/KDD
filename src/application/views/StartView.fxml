@@ -40,11 +40,6 @@
       <TableView fx:id="aprioriTable" layoutX="229.0" layoutY="157.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-         <columns>
-            <TableColumn prefWidth="75.0" text="From" />
-            <TableColumn prefWidth="246.0" text="To" />
-            <TableColumn prefWidth="70.0" text="Conf" />
-         </columns></TableView>
+         </columnResizePolicy></TableView>
    </children>
 </AnchorPane>
