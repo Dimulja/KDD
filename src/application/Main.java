@@ -13,7 +13,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-
+/**
+ * 
+ * @author Polina Tagirova 2291231
+ * @author Dmytro Shlyakhov 2064332
+ * 
+ *
+ */
 
 public class Main extends Application {
 	
@@ -22,6 +28,7 @@ public class Main extends Application {
 	private Stage primaryStage;
 	
 	public static ArrayList<Transaction> trList = new ArrayList<Transaction>();
+	public static ArrayList<Transaction> trListAll = new ArrayList<Transaction>();
 	public static int goodsAmount, dataAmount; 
 	public static String[] goodsTitle;
 	public static String[] dataTitle;
@@ -33,7 +40,9 @@ public class Main extends Application {
 		
 	}
 	
-	
+	/**
+	 * Loading root layout
+	 */
 	public void initRootLayout() {
         try {
             // Load root layout from fxml file.
@@ -51,7 +60,9 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-	
+	/**
+	 * Loading Startview
+	 */
 	public void initStartView(){
 		try {
 			
