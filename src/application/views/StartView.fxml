@@ -44,6 +44,6 @@
          </columnResizePolicy></TableView>
       <Label layoutX="200.0" layoutY="63.0" text="Constraint:" />
       <Label fx:id="filterLabel" layoutX="268.0" layoutY="63.0" prefHeight="17.0" prefWidth="212.0" />
-      <Label fx:id="rulesNumber" layoutX="320.0" layoutY="63.0" text="Number of Rules" />
+      <Label fx:id="rulesNumber" layoutX="448.0" layoutY="63.0" text="Number of Rules:" />
    </children>
 </AnchorPane>

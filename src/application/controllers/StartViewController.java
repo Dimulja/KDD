@@ -258,8 +258,12 @@ public class StartViewController implements Initializable {
 		aprioriTable.getColumns().addAll(column,column2, column3);
 		//System.out.println(resRules);
 		for(Rules rule: resRules){
-			if(rule.getConf()>=minConf.getValue()/100){
-				
+			Double conf = new Double(minConf.getValue());
+			conf= conf/100;
+			if(rule.getConf()>=conf){
+//				System.out.println(" rule conf:"+rule.getConf());
+//				System.out.println(" MinCnf:"+conf);
+//				System.out.println(" MinCnf:"+minConf.getValue()/100);
 			
 			Map<Integer, String> dataRow = new HashMap<>();
 			
