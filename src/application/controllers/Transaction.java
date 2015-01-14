@@ -4,17 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import application.Main;
-
+/**
+ * 
+ * @author Dimulja, Polina
+ *
+ */
 public class Transaction {
-	/*
-	int goodsAmount;
-	int dataAmount;
-	ArrayList<String> goodsTitle;
-	ArrayList<ArrayList<Integer>> goods;
-	ArrayList<String> dataTitle;
-	ArrayList<ArrayList<String>> data;
-	*/	
-	//String[] splittedFieldsLine, splittedDataLine;
+
 	
 	HashMap<String, Integer> goods;
 	HashMap<String, String> data;

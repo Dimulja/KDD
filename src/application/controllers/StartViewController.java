@@ -6,28 +6,13 @@ package application.controllers;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-
-
-
-
-
-
-
-
-
-
-import java.util.StringTokenizer;
-import java.util.Vector;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import application.Main;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 //import application.Main;
@@ -88,7 +73,7 @@ public class StartViewController implements Initializable {
 	@FXML
 	private BarChart<String, Integer> chartHist;
 	@FXML
-	private Label minSupLabel;
+	private Label minSupLabel, rulesNumber;
 	@FXML
 	private Button aprioriButtonCalculate; 
 	@FXML
@@ -121,10 +106,13 @@ public class StartViewController implements Initializable {
 		
 	}
 	
-	
+	 /**
+	  * Shows chosen Statistic
+	  * @param event
+	  */
 	  @FXML
 	  void showStatistic(ActionEvent event) {
-		  System.out.println(box.getValue());
+		  //System.out.println(box.getValue());
 		  if(box.getValue()!=null){
 			  xAxis.setLabel(box.getValue());
 			  updateHist(box.getValue());
@@ -132,7 +120,10 @@ public class StartViewController implements Initializable {
 			  aprioriTable.setVisible(false);
 		  }
 	    }
-	
+	/**
+	 * Adding filter parameter
+	 * @param event
+	 */
 	 @FXML
 	public void addToList(ActionEvent event) {
 		 if((box.getValue()!=null) &&  valueBox.getValue()!=null){
@@ -141,27 +132,7 @@ public class StartViewController implements Initializable {
 		 }
 	}
 	  
-	public void aprioriResultShow(ArrayList<String> str){  
-		 
-//		 rulesData = FXCollections.observableArrayList(str);
-//		 //TableColumn<String, String> col1 = new TableColumn<String, String>("Col 1");        
-//		 //col1.setCellValueFactory(new PropertyValueFactory<String, String>("column1"))
-//		// rulesCol.setCellValueFactory( new PropertyValueFactory<String, String>("column1") );
-//		 aprioriTable.getColumns().clear();		 
-//		// table.setItems(cityList);
-//		 
-//		 //aprioriTable.getColumns().add(col1);
-//		 TableColumn<String, String> rulesColumn = new TableColumn<String, String>("Rules");
-//		 aprioriTable.getColumns().add(rulesColumn);
-//		 rulesColumn.setPrefWidth(aprioriTable.getPrefWidth() - 2);
-//		 
-//		 aprioriTable.setItems(rulesData);
-//		 aprioriTable.setVisible(true);
-//		 
-//		 System.out.println(aprioriTable.getItems().toString());
-		 //rulesCol.setCellValueFactory(rulesData);
-	 }
-	
+
 	//@FXML
 	public void associationRulesValues(ArrayList<String> allIds){
 		dataNames=FXCollections.observableArrayList(allIds);
@@ -172,7 +143,10 @@ public class StartViewController implements Initializable {
         assozFrom.setVisible(true);
         assozTo.setVisible(true);
 	}
-		
+	/**
+	 * Loading File with satndart File chooser
+	 * @param event
+	 */
 	@FXML
 	public void OpenFilePress(ActionEvent event){
 		FileChooser fileChooser = new FileChooser();
@@ -188,17 +162,8 @@ public class StartViewController implements Initializable {
         hist.setDisable(false);
         dataLoaded=true;
         paramVBox.setVisible(true);
-        
-        //dataNames= FXCollections.observableArrayList(Main.dataTitle);
-       // Statistic st = new Statistic(choiceStatistic);
-      // choiceStatistic=st.getDataForCheckBox();
-      // st.fillTheBox();
         dataNames=FXCollections.observableArrayList(Main.dataTitle);
-        //System.out.println(dataNames);
-        //box = new ComboBox<String>();
         box.setItems(dataNames);
-        //System.out.println( box.getItems());
-        //box.show();
         box.valueProperty().addListener(new ChangeListener<String>() {
             @Override 
             public void changed(ObservableValue ov, String t, String t1) {
@@ -223,7 +188,9 @@ public class StartViewController implements Initializable {
         	dataLoaded=false;
         }
 	}
-	
+	/**
+	 * Initiating values
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		dataLoaded=false;
@@ -231,7 +198,7 @@ public class StartViewController implements Initializable {
 		box.setVisible(false);
 		 ObservableList<Integer> boxValues=FXCollections.observableArrayList();
 		
-		numberXis.setLabel("Werte");
+		numberXis.setLabel("Numbers");
 		for(int i=1;i<101;i++){
 			boxValues.add(i);
 		}
@@ -247,16 +214,19 @@ public class StartViewController implements Initializable {
 
 	}
 	
+	/**
+	 * On Press calculate Button
+	 * @param event
+	 */
 	
 	@FXML
 	public void aprioriButtonCalculateOnAction(ActionEvent event) {
-		//choiceStatistic.		
-		//System.out.println("apriori : ");
 		if(filterLabel.getText()!=null && filterLabel.getText()!=""){
 		 String[] splitted=	getFilter().split(":");
 		 for(int i=0; i<Main.trList.size();i++){
 			 if(!Main.trList.get(i).getValueData(splitted[0]).equals(splitted[1])){
 				 Main.trList.remove(Main.trList.get(i));
+				 
 			 }
 		 }//end for
 		}else{
@@ -270,12 +240,12 @@ public class StartViewController implements Initializable {
 		Apriori a= new Apriori(this);
 		try {
 			double supmin = (double)minSupText.getValue();
-			//supmin = Math.round(supmin / 100 * Main.trList.size());
 			System.out.println("supmin " + supmin + " Main.trList.size() " + Main.trList.size());
 			a.apriori(supmin);
 		} catch (Exception e) {
 			//System.out.println("aprioriButtonCalculateOnAction " + e);
 		}
+		//Adding rules to the table
 		if(aprioriTable.getColumns().size()>0)
 		aprioriTable.getColumns().remove(0, 3);
 		ObservableList<Map> tableData = FXCollections.observableArrayList();
@@ -286,7 +256,7 @@ public class StartViewController implements Initializable {
 		column2.setCellValueFactory(new MapValueFactory(1));
 		column3.setCellValueFactory(new MapValueFactory(2));
 		aprioriTable.getColumns().addAll(column,column2, column3);
-		System.out.println(resRules);
+		//System.out.println(resRules);
 		for(Rules rule: resRules){
 			if(rule.getConf()>=minConf.getValue()/100){
 				
@@ -307,6 +277,7 @@ public class StartViewController implements Initializable {
 ////		aprioriTable.getColumns().add(fromColumn);
 		aprioriTable.setItems(tableData);
 		aprioriTable.setVisible(true);
+		rulesNumber.setText("Number of Rules: "+resRules.size());
 		
 	}
 
@@ -333,19 +304,13 @@ public class StartViewController implements Initializable {
 				for (Transaction good : Main.trList) {
 					sum[i] += good.getValueGood(Main.goodsTitle[i]);
 				}
-				System.out.println(""+Main.goodsTitle[i]+" : "+sum[i]);
+				//System.out.println(""+Main.goodsTitle[i]+" : "+sum[i]);
 			}
 			//observableArrayList for the Categorie Names
 			goodsNames = FXCollections.observableArrayList(Main.goodsTitle);
 			
 			//Setting the names to the xAxis
 			xAxis.setCategories(goodsNames); 
-			//.setTickLabelRotation(45);
-		   
-		   
-		    //int[] x = new int[3];
-		    //System.out.println(xAxis.getCategorySpacing());
-		    
 		    XYChart.Series<String, Integer> series = new XYChart.Series<>();
 		    series.setName("Sums of foods from "+fileNameOfDataFile+"  ");
 		    
@@ -360,10 +325,7 @@ public class StartViewController implements Initializable {
 		    if(!chartHist.isVisible()){
 		    	chartHist.setVisible(true);
 		    }
-		    	
-//		    if(chartHist!=null)
-//		    	chartHist.getData().add(series);
-//		    chartHist.setVisible(true);
+
 		    
 		   
 		   
@@ -371,6 +333,10 @@ public class StartViewController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Updating the histogram with parameter
+	 * @param groupName
+	 */
 	public void updateHist(String groupName){
 		if (!chartHist.isVisible()){
 			chartHist.setVisible(true);
@@ -382,13 +348,6 @@ public class StartViewController implements Initializable {
 		createValueList(groupName);
 		//Getting values for chosen Group 
 		
-//		for(Transaction currentTransaction : Main.trList){
-//			if (!valuesList.contains(currentTransaction.getValueData(groupName))){
-//				valuesList.add(currentTransaction.getValueData(groupName));
-//			}
-//		
-//		}
-		
 
 			for (int i=1; i<valuesList.size();i++){
 				int[] sum = new int[Main.goodsAmount];
@@ -397,8 +356,6 @@ public class StartViewController implements Initializable {
 				//series.add(serie);
 				for(Transaction currentTransaction : Main.trList){
 				
-				
-				//System.out.println(valuesList.get(i));
 					if(currentTransaction.data.containsValue(valuesList.get(i))){
 				
 						for (int j=0; j<Main.goodsAmount;j++){
@@ -417,7 +374,10 @@ public class StartViewController implements Initializable {
 			chartHist.getData().addAll(series);		
 	}
 	
-	
+	/**
+	 * Reseting filter
+	 * @param event
+	 */
 	   @FXML
 	    void resetList(ActionEvent event) {
 		   filterLabel.setText(null);
@@ -437,7 +397,11 @@ public class StartViewController implements Initializable {
 	
 	}
 	
-	
+	/**
+	 * Gets Names from rule-tuple
+	 * @param partRule 
+	 * @return Sting with values
+	 */
 	private String getTitlesFromArrayList(ArrayList<Integer> partRule){
 		String s="";
 		for(int i=0;i<partRule.size();i++){
@@ -450,6 +414,10 @@ public class StartViewController implements Initializable {
 		resRules= new ArrayList<Rules>(rules);
 	}
 	
+	/**
+	 * 
+	 * @return String value of the set filter
+	 */
 	public String getFilter(){
 		//System.out.println(filterLabel.getText());
 		return filterLabel.getText();
