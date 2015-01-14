@@ -19,9 +19,12 @@ public class Apriori {
 	public Apriori(StartViewController controller) {
 		this.controller = controller;
 	}
-
+	/**
+	 * 
+	 * @param k 
+	 */
 	public void apriori(double k) {
-		minsup = (int) Math.round(k / 100 * Main.trList.size());
+		minsup = (int) Math.round(k / 100 * Main.trList.size()); 
 
 		int itemsetNumber = 0;
 		itemsetNumber++;
@@ -55,7 +58,10 @@ public class Apriori {
 
 		associationRules2();
 	}
-
+	
+	/**
+	 * convert string to array from type int
+	 */
 	public static int[] splitConverter(String s, String reg) {
 		String[] str = s.split(reg);
 		int[] res = new int[str.length];
@@ -64,7 +70,10 @@ public class Apriori {
 		}
 		return res;
 	}
-
+	
+	/**
+	 * calculate confidence
+	 */
 	private void associationRules2() {
 		resRules.clear();
 		if (candidatesProved.size() > 0) {
@@ -90,7 +99,11 @@ public class Apriori {
 		}
 		controller.setRules(resRules);
 	}
-
+	
+	/**
+	 * generate all possible associations rules from permutations 
+	 * @param ids
+	 */
 	private static void generateAssociationRules(int[] ids) {
 		if (ids.length > 2) {
 			ArrayList<Rules> rules = new ArrayList<Rules>();
@@ -139,6 +152,12 @@ public class Apriori {
 
 		}
 	}
+	
+	/**
+	 * generate all permutations
+	 * @param pa
+	 * @param i
+	 */
 	private static void permutationGenerate(int[] pa, int i) {
 		if (i == pa.length - 1) {
 			arraout(pa);
@@ -150,13 +169,23 @@ public class Apriori {
 			}
 		}
 	}
-
+	
+	/**
+	 * reverse of two elements in the array
+	 * @param pa
+	 * @param i
+	 * @param j
+	 */
 	private static void aswap(int[] pa, int i, int j) {
 		int k = pa[i];
 		pa[i] = pa[j];
 		pa[j] = k;
 	}
-
+	
+	/**
+	 * save permutations
+	 * @param pa
+	 */
 	private static void arraout(int[] pa) {
 		String s = "";
 		for (int i = 0; i < pa.length - 1; i++) {
@@ -165,26 +194,10 @@ public class Apriori {
 		s += pa[pa.length - 1];
 		perm.add(s);
 	}
-	
-	/*
-	 * generate all Permutations
-	 */
-	public static void generatePermutations(int[] p, int depth) {
-		int n = p.length;
-		if (depth == n) {
-			return;
-		}
-		for (int i = 0; i < n; i++) {
-			if (p[i] == 0) {
-				p[i] = depth;
-				generatePermutations(p, depth + 1);
-				p[i] = 0;
-			}
-		}
-	}
-	/*
+		
+	/**
 	 * proved all candidates 
-	 * (if frequency for candidate less as support remove this candidate)
+	 * (if frequency for candidate less as support remove this candidate from possible candidates)
 	 */
 	private void calculateFrequent(int n) {
 		ArrayList<String> tempCandidates = new ArrayList<String>(candidates);
@@ -231,9 +244,9 @@ public class Apriori {
 		}
 	}
 	
-	/*
-	 *  generated all possible candidates for Apriori algorithm
-	 *  
+	/**
+	 * generated all possible candidates for apriori algorithm
+	 * @param n
 	 */
 	private void generateCandidates(int n) {
 		ArrayList<String> tempCandidates = new ArrayList<String>(); // temporary candidate string vector
