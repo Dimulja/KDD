@@ -92,7 +92,7 @@ public class TxtReader {
 			e.printStackTrace();
 		}
 		
-		log("After adding Data the main arraylist has "+Main.trList.size()+" Elements");
+		//log("After adding Data the main arraylist has "+Main.trList.size()+" Elements");
 		Main.trListAll = new ArrayList<Transaction>(Main.trList);
 		
 	}

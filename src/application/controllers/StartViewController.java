@@ -240,7 +240,7 @@ public class StartViewController implements Initializable {
 		Apriori a= new Apriori(this);
 		try {
 			double supmin = (double)minSupText.getValue();
-			System.out.println("supmin " + supmin + " Main.trList.size() " + Main.trList.size());
+			//System.out.println("supmin " + supmin + " Main.trList.size() " + Main.trList.size());
 			a.apriori(supmin);
 		} catch (Exception e) {
 			//System.out.println("aprioriButtonCalculateOnAction " + e);
@@ -257,7 +257,9 @@ public class StartViewController implements Initializable {
 		column3.setCellValueFactory(new MapValueFactory(2));
 		aprioriTable.getColumns().addAll(column,column2, column3);
 		//System.out.println(resRules);
+		int count=0;
 		for(Rules rule: resRules){
+			
 			Double conf = new Double(minConf.getValue());
 			conf= conf/100;
 			if(rule.getConf()>=conf){
@@ -275,13 +277,14 @@ public class StartViewController implements Initializable {
 			dataRow.put(2, String.valueOf(rule.getConf()));
 			//System.out.println(confColumn.toString());
 			tableData.add(dataRow);
+			count++;
 			}
 		}
 		
 ////		aprioriTable.getColumns().add(fromColumn);
 		aprioriTable.setItems(tableData);
 		aprioriTable.setVisible(true);
-		rulesNumber.setText("Number of Rules: "+resRules.size());
+		rulesNumber.setText("Number of Rules: "+count);
 		
 	}
 
