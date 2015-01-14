@@ -10,7 +10,7 @@
 <AnchorPane cacheHint="SCALE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.StartViewController">
    <children>
       <Button fx:id="OpenFile" layoutX="43.0" layoutY="38.0" mnemonicParsing="false" onAction="#OpenFilePress" text="Open TXT-File" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
-      <BarChart fx:id="chartHist" cache="true" cacheHint="SCALE_AND_ROTATE" layoutX="108.0" layoutY="101.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="101.0">
+      <BarChart fx:id="chartHist" animated="false" cache="true" cacheHint="SCALE_AND_ROTATE" layoutX="108.0" layoutY="101.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="101.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
@@ -35,12 +35,16 @@
             <Label fx:id="minSupLabel" text="MinSup ( in % ):" />
             <TextField fx:id="minSupText" prefHeight="26.0" prefWidth="48.0" promptText="1-100" />
             <Button fx:id="aprioriButtonCalculate" mnemonicParsing="false" onAction="#aprioriButtonCalculateOnAction" text="Calculate" />
-            <Label text="Param1" />
-            <ComboBox fx:id="assozFrom" prefWidth="150.0" />
-            <Label text="Param2" />
-            <ComboBox fx:id="assozTo" prefHeight="25.0" prefWidth="150.0" />
          </children>
       </VBox>
-      <TableView fx:id="aprioriTable" layoutX="229.0" layoutY="114.0" prefHeight="369.0" prefWidth="440.0" visible="false" />
+      <TableView fx:id="aprioriTable" layoutX="229.0" layoutY="157.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+         <columns>
+            <TableColumn prefWidth="75.0" text="From" />
+            <TableColumn prefWidth="246.0" text="To" />
+            <TableColumn prefWidth="70.0" text="Conf" />
+         </columns></TableView>
    </children>
 </AnchorPane>

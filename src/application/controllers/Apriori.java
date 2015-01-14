@@ -38,7 +38,7 @@ public class Apriori {
 			// determine and display frequent itemsets
 			calculateFrequent(itemsetNumber);
 			if (candidates.size() != 0) {
-				System.out.println("Frequent " + itemsetNumber + "-itemsets");
+				//System.out.println("Frequent " + itemsetNumber + "-itemsets");
 				// System.out.println(candidates);
 			}
 		}
@@ -310,7 +310,7 @@ public class Apriori {
 			candidates = new ArrayList<String>(tempCandidates);
 			//System.out.println("Not proved erg " + candidates);
 		} else {
-			System.out.println("NUULLLL");
+			//System.out.println("NUULLLL");
 		}
 		tempCandidates.clear();
 	}
