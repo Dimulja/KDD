@@ -149,7 +149,7 @@ public class StartViewController implements Initializable {
 	//@FXML
 	public void associationRulesValues(ArrayList<String> allIds){
 		dataNames=FXCollections.observableArrayList(allIds);
-        System.out.println(dataNames);
+        //System.out.println(dataNames);
         //box = new ComboBox<String>();
         assozFrom.setItems(dataNames);
         assozTo.setItems(dataNames);
@@ -165,7 +165,7 @@ public class StartViewController implements Initializable {
         File file = fileChooser.showOpenDialog(null);
         
         if (file!=null){
-        System.out.println(file);
+        //System.out.println(file);
         fileNameOfDataFile=file.getName();
         TxtReader TReader = new TxtReader();
         TReader.readTXT(file.getPath());
@@ -178,7 +178,7 @@ public class StartViewController implements Initializable {
       // choiceStatistic=st.getDataForCheckBox();
       // st.fillTheBox();
         dataNames=FXCollections.observableArrayList(Main.dataTitle);
-        System.out.println(dataNames);
+        //System.out.println(dataNames);
         //box = new ComboBox<String>();
         box.setItems(dataNames);
         //System.out.println( box.getItems());

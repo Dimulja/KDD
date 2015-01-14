@@ -25,7 +25,7 @@ public class Apriori {
 		int itemsetNumber = 0;
 		itemsetNumber++;
 		generateCandidates(itemsetNumber);
-		System.out.println("for all cand " + candidates.toString());
+		//System.out.println("for all cand " + candidates.toString());
 		calculateFrequent(itemsetNumber);
 
 		itemsetNumber++;
@@ -43,7 +43,7 @@ public class Apriori {
 			}
 		}
 		System.out.println("Ergebniss" + candidatesProved + " size "  + candidatesProved.size());
-		System.out.println("Ergebniss 2" + candidatesHm.toString() + " size "  + candidatesHm.size());
+		//System.out.println("Ergebniss 2" + candidatesHm.toString() + " size "  + candidatesHm.size());
 		//System.out.println("Ergebniss 3 " + candidates + " size "  + candidates.size());
 	
 		ArrayList<String> str = new ArrayList<String>();
@@ -51,12 +51,12 @@ public class Apriori {
 			String[] el = s.split(" ");
 			String res = "";
 			for (int i = 0; i < el.length; i++) {
-				System.out.print(Main.goodsTitle[Integer.parseInt(el[i])]
-						+ " , ");
+//				System.out.print(Main.goodsTitle[Integer.parseInt(el[i])]
+//						+ " , ");
 				res += Main.goodsTitle[Integer.parseInt(el[i])] + " , ";
 			}
 			str.add(res);
-			System.out.println("");
+			//System.out.println("");
 		}
 		controller.aprioriResultShow(str);
 		// controller.aprioriResultShow();
@@ -92,10 +92,11 @@ public class Apriori {
 			}
 			System.out.println("res.size() " + resRules.size());
 			for(Rules rule : resRules){
+				
 				String all = rule.allToString();
 				String from = rule.fromToString();
-				
-				System.out.println(rule.getFrom()+ " " + rule.getTo() +"   " + (candidatesHm.get(all)/candidatesHm.get(from)) );
+				rule.setConf(candidatesHm.get(all)/candidatesHm.get(from));
+				System.out.println(rule.getFrom()+ " " + rule.getTo() +"   " + rule.getConf() );
 			}
 		}
 	}
@@ -141,9 +142,9 @@ public class Apriori {
 				}
 			}
 
-			for (Rules r : rulesProved) {
-				System.out.println("rulesProved" + r.getFrom().toString() + " " + r.getTo());
-			}
+//			for (Rules r : rulesProved) {
+//				System.out.println("rulesProved" + r.getFrom().toString() + " " + r.getTo());
+//			}
 			resRules.addAll(rulesProved);
 		} else {
 			// ArrayList<Rules> rules =new ArrayList<Rules>();
@@ -250,7 +251,7 @@ public class Apriori {
 		if (candidates.size() > 0) {
 			candidatesProved.addAll(candidates);
 		}
-		System.out.println("all cand " + candidates.toString());
+		//System.out.println("all cand " + candidates.toString());
 	}
 
 	private void generateCandidates(int n) {
@@ -307,7 +308,7 @@ public class Apriori {
 		// set the new ones
 		if (!tempCandidates.isEmpty()) {
 			candidates = new ArrayList<String>(tempCandidates);
-			System.out.println("Not proved erg " + candidates);
+			//System.out.println("Not proved erg " + candidates);
 		} else {
 			System.out.println("NUULLLL");
 		}

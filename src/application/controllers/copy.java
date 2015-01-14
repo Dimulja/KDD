@@ -162,9 +162,9 @@ public class copy {
 //			for(Rules r:rules){
 //				System.out.println("rules" + r.getFrom().toString()+" " +r.getTo());			
 //			}
-			for(Rules r:rulesProved){
-				System.out.println("rulesProved" + r.getFrom().toString()+" " +r.getTo());			
-			}
+//			for(Rules r:rulesProved){
+//				System.out.println("rulesProved" + r.getFrom().toString()+" " +r.getTo());			
+//			}
 			resRules.addAll(rulesProved);
 			//System.out.println("rulesProved   Si" +rulesProved.size());	
 		} else {
