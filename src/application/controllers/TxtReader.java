@@ -93,6 +93,7 @@ public class TxtReader {
 		}
 		
 		log("After adding Data the main arraylist has "+Main.trList.size()+" Elements");
+		Main.trListAll = new ArrayList<Transaction>(Main.trList);
 		
 	}
 	

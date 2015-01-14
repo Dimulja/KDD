@@ -252,6 +252,21 @@ public class StartViewController implements Initializable {
 	public void aprioriButtonCalculateOnAction(ActionEvent event) {
 		//choiceStatistic.		
 		//System.out.println("apriori : ");
+		if(filterLabel.getText()!=null && filterLabel.getText()!=""){
+		 String[] splitted=	getFilter().split(":");
+		 for(int i=0; i<Main.trList.size();i++){
+			 if(!Main.trList.get(i).getValueData(splitted[0]).equals(splitted[1])){
+				 Main.trList.remove(Main.trList.get(i));
+			 }
+		 }//end for
+		}else{
+			
+			//all Transactions
+			
+			Main.trList = new ArrayList<Transaction>(Main.trListAll);
+		}
+		
+		
 		Apriori a= new Apriori(this);
 		try {
 			double supmin = (double)minSupText.getValue();
@@ -436,7 +451,7 @@ public class StartViewController implements Initializable {
 	}
 	
 	public String getFilter(){
-		System.out.println(filterLabel.getText());
+		//System.out.println(filterLabel.getText());
 		return filterLabel.getText();
 	}
 	
