@@ -38,7 +38,6 @@ public class Rules {
 	
 	public String fromToString(){
 		String s="";
-		System.out.println("fromToString " + from.toString() +" "+ from.size());
 		if (from.size() > 2) {
 			for (int i = 0; i < from.size() - 1; i++ ) {
 				s += Integer.toString(from.get(i)) + " ";
@@ -47,7 +46,6 @@ public class Rules {
 		} else{
 			s += Integer.toString(from.get(0));
 		}
-		System.out.println("fromToString" + s);
 		return s;
 	}
 	
